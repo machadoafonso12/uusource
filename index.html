@@ -28,7 +28,6 @@
     overflow-x: hidden;
   }
 
-  /* ── NAV ── */
   nav {
     display: flex;
     align-items: center;
@@ -73,7 +72,6 @@
   }
   .nav-cta:hover { opacity: 0.85; }
 
-  /* ── HERO ── */
   .hero {
     display: flex;
     flex-direction: column;
@@ -131,7 +129,6 @@
     font-weight: 300;
   }
 
-  /* ── SEARCH BOX ── */
   .search-wrap {
     width: 100%;
     max-width: 700px;
@@ -244,7 +241,6 @@
   .img-preview img { width: 36px; height: 36px; object-fit: cover; border-radius: 6px; }
   .img-preview .remove { margin-left: auto; cursor: pointer; color: #e24b4b; font-size: 18px; line-height: 1; }
 
-  /* ── RESULTS ── */
   #results { padding: 0 40px 60px; max-width: 1200px; margin: 0 auto; }
 
   .results-header {
@@ -282,7 +278,7 @@
 
   .product-img {
     width: 100%;
-    aspect-ratio: 1;
+    height: 220px;
     object-fit: cover;
     background: var(--surface2);
     display: flex;
@@ -291,7 +287,11 @@
     color: var(--muted);
     font-size: 13px;
   }
-  .product-img img { width: 100%; height: 100%; object-fit: cover; }
+  .product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
   .product-info { padding: 14px 16px; }
   .product-name {
@@ -328,7 +328,6 @@
   .source-weidian { background: rgba(255,59,48,0.12); color: #ff3b30; }
   .source-1688 { background: rgba(0,120,255,0.12); color: #0078ff; }
 
-  /* Agent links */
   .agent-links {
     display: flex;
     flex-wrap: wrap;
@@ -371,7 +370,6 @@
     border-color: var(--accent);
   }
 
-  /* ── MODAL (QC Photos) ── */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -435,12 +433,15 @@
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    font-size: 12px;
   }
+  .qc-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .qc-photo img:hover { opacity: 0.85; }
 
   .modal-agents h4 {
     font-family: 'Syne', sans-serif;
@@ -480,7 +481,6 @@
   .agent-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
   .agent-arrow { color: var(--accent); font-size: 18px; }
 
-  /* ── AGENTS SECTION ── */
   .agents-section {
     padding: 60px 40px;
     max-width: 1200px;
@@ -552,7 +552,6 @@
     letter-spacing: 0.3px;
   }
 
-  /* ── EMPTY STATE ── */
   .empty-state {
     display: flex;
     flex-direction: column;
@@ -565,7 +564,6 @@
   .empty-state .icon { font-size: 48px; opacity: 0.3; }
   .empty-state p { max-width: 320px; line-height: 1.6; font-size: 14px; }
 
-  /* ── LOADING ── */
   .loading {
     display: none;
     align-items: center;
@@ -585,7 +583,19 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── FOOTER ── */
+  .error-msg {
+    display: none;
+    background: rgba(226,75,74,0.1);
+    border: 1px solid rgba(226,75,74,0.3);
+    color: #e24b4a;
+    padding: 16px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin: 20px 0;
+    text-align: center;
+  }
+  .error-msg.show { display: block; }
+
   footer {
     border-top: 1px solid var(--border);
     padding: 32px 40px;
@@ -594,6 +604,30 @@
     justify-content: space-between;
     color: var(--muted);
     font-size: 13px;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 8px; }
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: var(--surface2);
+    border: none;
+    color: var(--text);
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    font-size: 20px;
+    cursor: pointer;
   }
 
   @media (max-width: 600px) {
@@ -620,7 +654,6 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-badge">Beta — Melhor que o UUFinds</div>
   <h1>Encontra qualquer produto.<br><em>Sem frustrações.</em></h1>
@@ -650,18 +683,16 @@
   </div>
 </section>
 
-<!-- RESULTS -->
 <div id="results">
   <div class="empty-state" id="empty-state">
     <div class="icon">🔍</div>
     <p>Cola um link de produto ou pesquisa por nome para ver resultados com fotos de QC e links de agentes.</p>
   </div>
-
   <div class="loading" id="loading">
     <div class="spinner"></div>
     A buscar produto e fotos de QC...
   </div>
-
+  <div class="error-msg" id="error-msg"></div>
   <div id="results-content" style="display:none">
     <div class="results-header">
       <h2 id="results-title">Resultados</h2>
@@ -671,11 +702,9 @@
   </div>
 </div>
 
-<!-- AGENTS SECTION -->
 <section class="agents-section" id="agents-section">
   <h2>Escolhe o teu agente</h2>
   <p>Regista-te através dos nossos links e apoia a plataforma. Todos os agentes abaixo são de confiança.</p>
-
   <div class="agents-big-grid">
     <a href="https://www.pandabuy.com/signup?inviteCode=FINDQC" target="_blank" class="agent-big-card">
       <div class="agent-big-name">Pandabuy</div>
@@ -721,15 +750,19 @@
   <div class="modal">
     <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
     <h3 id="modal-title">Nome do Produto</h3>
-    <p class="modal-meta" id="modal-meta">Taobao · 12 fotos de QC · ¥ 89</p>
-
+    <p class="modal-meta" id="modal-meta"></p>
     <div class="qc-grid" id="qc-grid"></div>
-
     <div class="modal-agents">
       <h4>Comprar via agente</h4>
       <div class="agents-grid" id="modal-agents-grid"></div>
     </div>
   </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="document.getElementById('lightbox').classList.remove('open')">
+  <button class="lightbox-close">✕</button>
+  <img id="lightbox-img" src="" alt="">
 </div>
 
 <footer>
@@ -738,9 +771,18 @@
 </footer>
 
 <script>
-  // ── TAB LOGIC ──
+  const API_KEY = '07349e86bfmshf9ee4dfb09c3d65p18daf6jsn7116049f9b71';
+
+  const AGENTS = [
+    { name: 'Pandabuy', url: 'https://www.pandabuy.com/product?url=', desc: 'Popular' },
+    { name: 'Wegobuy',  url: 'https://www.wegobuy.com/en/page/buy?from=search-input&url=', desc: 'Veterano' },
+    { name: 'Superbuy', url: 'https://www.superbuy.com/en/page/buy/?nativeflip=true&url=', desc: 'Clássico' },
+    { name: 'CSSBuy',   url: 'https://www.cssbuy.com/item-', desc: 'Económico' },
+  ];
+
   let currentTab = 'link';
   let uploadedImage = null;
+  let currentProducts = [];
 
   function setTab(tab, el) {
     currentTab = tab;
@@ -782,72 +824,134 @@
     document.getElementById('img-preview').classList.remove('show');
   }
 
-  // ── SEARCH ──
-  function doSearch() {
+  function showError(msg) {
+    const el = document.getElementById('error-msg');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  function hideError() {
+    document.getElementById('error-msg').classList.remove('show');
+  }
+
+  function detectSource(url) {
+    if (url.includes('1688.com')) return '1688';
+    if (url.includes('weidian.com')) return 'weidian';
+    return 'taobao';
+  }
+
+  async function doSearch() {
     const query = document.getElementById('search-input').value.trim();
     if (!query && !uploadedImage) return;
 
+    hideError();
     document.getElementById('empty-state').style.display = 'none';
     document.getElementById('results-content').style.display = 'none';
     document.getElementById('loading').classList.add('show');
 
-    setTimeout(() => {
+    try {
+      let data;
+
+      // Check if it's a URL (link mode)
+      const isUrl = query.startsWith('http') || query.includes('taobao.com') || query.includes('weidian.com') || query.includes('1688.com');
+
+      if (isUrl) {
+        // Fetch single item detail by URL
+        data = await fetchItemDetail(query);
+      } else {
+        // Search by keyword
+        data = await fetchItemSearch(query);
+      }
+
       document.getElementById('loading').classList.remove('show');
-      showResults(query);
-    }, 1400);
+      renderResults(data, query);
+
+    } catch (err) {
+      document.getElementById('loading').classList.remove('show');
+      showError('Erro ao buscar produto. Verifica o link e tenta novamente.');
+      console.error(err);
+    }
   }
 
-  document.getElementById('search-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') doSearch();
-  });
-
-  // ── MOCK DATA ──
-  const agents = [
-    { name: 'Pandabuy', url: 'https://www.pandabuy.com', desc: 'Popular' },
-    { name: 'Wegobuy',  url: 'https://www.wegobuy.com',  desc: 'Veterano' },
-    { name: 'Superbuy', url: 'https://www.superbuy.com', desc: 'Clássico' },
-    { name: 'CSSBuy',   url: 'https://www.cssbuy.com',   desc: 'Económico' },
-  ];
-
-  const mockProducts = [
-    { name: 'Nike Dunk Low Panda', price: '¥ 178', source: 'taobao', qcCount: 18 },
-    { name: 'New Balance 550 White', price: '¥ 155', source: '1688', qcCount: 12 },
-    { name: 'Air Jordan 1 Chicago', price: '¥ 210', source: 'taobao', qcCount: 24 },
-    { name: 'Yeezy 350 V2 Zebra', price: '¥ 195', source: 'weidian', qcCount: 9 },
-    { name: 'Vans Old Skool Black', price: '¥ 89', source: 'taobao', qcCount: 7 },
-    { name: 'Converse Chuck 70', price: '¥ 98', source: '1688', qcCount: 15 },
-  ];
-
-  function getSourceBadge(source) {
-    const map = { taobao: 'source-taobao', weidian: 'source-weidian', '1688': 'source-1688' };
-    return `<span class="source-badge ${map[source]}">${source.toUpperCase()}</span>`;
+  async function fetchItemDetail(url) {
+    const response = await fetch(`https://taobao-datahub.p.rapidapi.com/item_detail_simple?url=${encodeURIComponent(url)}`, {
+      method: 'GET',
+      headers: {
+        'x-rapidapi-key': API_KEY,
+        'x-rapidapi-host': 'taobao-datahub.p.rapidapi.com'
+      }
+    });
+    const json = await response.json();
+    // Wrap single item in array format
+    return { items: [json], single: true, originalUrl: url };
   }
 
-  function showResults(query) {
+  async function fetchItemSearch(keyword) {
+    const response = await fetch(`https://taobao-datahub.p.rapidapi.com/item_search_simple?keyword=${encodeURIComponent(keyword)}&page=1`, {
+      method: 'GET',
+      headers: {
+        'x-rapidapi-key': API_KEY,
+        'x-rapidapi-host': 'taobao-datahub.p.rapidapi.com'
+      }
+    });
+    return await response.json();
+  }
+
+  function renderResults(data, query) {
     const grid = document.getElementById('products-grid');
     const title = document.getElementById('results-title');
     const count = document.getElementById('results-count');
-
-    title.textContent = query ? `Resultados para "${query.length > 30 ? query.slice(0,30)+'...' : query}"` : 'Resultados por imagem';
-    count.textContent = `${mockProducts.length} produtos encontrados`;
     grid.innerHTML = '';
+    currentProducts = [];
 
-    mockProducts.forEach((p, i) => {
-      const agentLinks = agents.map(a =>
-        `<a class="agent-btn" href="${a.url}" target="_blank">${a.name}</a>`
+    let items = [];
+
+    // Handle different API response shapes
+    if (data.single && data.items && data.items[0]) {
+      const item = data.items[0];
+      const normalized = normalizeItem(item, data.originalUrl);
+      if (normalized) items = [normalized];
+    } else if (data.result && data.result.item_list) {
+      items = data.result.item_list.map(i => normalizeItem(i));
+    } else if (data.item) {
+      items = [normalizeItem(data.item, query)];
+    } else if (Array.isArray(data)) {
+      items = data.map(i => normalizeItem(i));
+    }
+
+    items = items.filter(Boolean);
+
+    if (items.length === 0) {
+      showError('Nenhum produto encontrado. Tenta outro link ou palavra-chave.');
+      return;
+    }
+
+    currentProducts = items;
+    title.textContent = query.startsWith('http') ? 'Produto encontrado' : `Resultados para "${query}"`;
+    count.textContent = `${items.length} produto${items.length !== 1 ? 's' : ''} encontrado${items.length !== 1 ? 's' : ''}`;
+
+    items.forEach((p, i) => {
+      const agentLinks = AGENTS.map(a =>
+        `<a class="agent-btn" href="${a.url}${encodeURIComponent(p.url || '')}" target="_blank">${a.name}</a>`
       ).join('');
+
+      const sourceClass = `source-${p.source}`;
+      const imgHtml = p.image
+        ? `<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='📦'">`
+        : '📦';
 
       grid.innerHTML += `
         <div class="product-card" onclick="openModal(${i})">
-          <div class="product-img" style="background:var(--surface2);display:flex;align-items:center;justify-content:center;height:220px;font-size:40px;">
-            👟
-          </div>
+          <div class="product-img">${imgHtml}</div>
           <div class="product-info">
             <div class="product-name">${p.name}</div>
-            <div class="product-price">${p.price}</div>
-            <div class="product-source">${getSourceBadge(p.source)} ${p.qcCount} fotos de QC</div>
+            <div class="product-price">¥ ${p.price}</div>
+            <div class="product-source">
+              <span class="source-badge ${sourceClass}">${p.source.toUpperCase()}</span>
+              ${p.images ? p.images.length + ' fotos' : 'Ver fotos'}
+            </div>
             <div class="agent-links">${agentLinks}</div>
-            <button class="qc-btn" onclick="event.stopPropagation();openModal(${i})">Ver fotos de QC</button>
+            <button class="qc-btn" onclick="event.stopPropagation();openModal(${i})">Ver fotos do produto</button>
           </div>
         </div>
       `;
@@ -856,26 +960,53 @@
     document.getElementById('results-content').style.display = 'block';
   }
 
-  // ── MODAL ──
+  function normalizeItem(item, url) {
+    if (!item) return null;
+    try {
+      return {
+        name: item.title || item.name || item.subject || 'Produto sem nome',
+        price: item.price || item.sale_price || item.min_price || '—',
+        image: item.pic_url || item.main_pic || item.item_imgs?.[0]?.url || item.images?.[0] || '',
+        images: item.item_imgs?.map(i => i.url) || item.images || (item.pic_url ? [item.pic_url] : []),
+        source: url ? detectSource(url) : detectSource(item.detail_url || item.url || ''),
+        url: item.detail_url || item.url || url || '',
+        id: item.item_id || item.id || '',
+      };
+    } catch (e) {
+      return null;
+    }
+  }
+
   function openModal(idx) {
-    const p = mockProducts[idx];
+    const p = currentProducts[idx];
+    if (!p) return;
+
     document.getElementById('modal-title').textContent = p.name;
     document.getElementById('modal-meta').textContent =
-      `${p.source.toUpperCase()} · ${p.qcCount} fotos de QC · ${p.price}`;
+      `${p.source.toUpperCase()} · ¥ ${p.price}`;
 
-    // QC photos (placeholders)
     const qcGrid = document.getElementById('qc-grid');
     qcGrid.innerHTML = '';
-    for (let i = 0; i < Math.min(p.qcCount, 9); i++) {
-      qcGrid.innerHTML += `
-        <div class="qc-photo" style="font-size:32px;background:var(--surface2);">📸</div>
-      `;
+
+    const photos = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
+
+    if (photos.length === 0) {
+      qcGrid.innerHTML = '<p style="color:var(--muted);font-size:13px;grid-column:1/-1;text-align:center;padding:20px">Sem fotos disponíveis</p>';
+    } else {
+      photos.forEach(src => {
+        qcGrid.innerHTML += `
+          <div class="qc-photo">
+            <img src="${src}" alt="foto" loading="lazy"
+              onclick="openLightbox('${src}')"
+              onerror="this.parentElement.style.display='none'">
+          </div>
+        `;
+      });
     }
 
-    // Agent links in modal
     const agentsGrid = document.getElementById('modal-agents-grid');
-    agentsGrid.innerHTML = agents.map(a => `
-      <a class="agent-card" href="${a.url}" target="_blank">
+    agentsGrid.innerHTML = AGENTS.map(a => `
+      <a class="agent-card" href="${a.url}${encodeURIComponent(p.url)}" target="_blank">
         <div>
           <div class="agent-name">${a.name}</div>
           <div class="agent-desc">${a.desc}</div>
@@ -892,6 +1023,15 @@
       document.getElementById('modal').classList.remove('open');
     }
   }
+
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  document.getElementById('search-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doSearch();
+  });
 </script>
 </body>
 </html>
