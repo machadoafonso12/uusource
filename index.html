@@ -556,6 +556,32 @@ function closeModal(e){if(e.target===document.getElementById('modal'))document.g
 function openLB(src){document.getElementById('lb-img').src=src;document.getElementById('lightbox').classList.add('open');}
 document.getElementById('search-input').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
 
+// ── AUTH ──
+(function(){
+  const loggedIn=localStorage.getItem('uu_logged_in')==='true';
+  if(!loggedIn){window.location.href='login.html';return;}
+  const user=localStorage.getItem('uu_user')||'User';
+  const navRight=document.querySelector('.nav-right');
+  // Replace Sign up free with username + logout
+  const cta=navRight.querySelector('.nav-cta');
+  if(cta)cta.remove();
+  navRight.insertAdjacentHTML('beforeend',`
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="display:flex;align-items:center;gap:8px;background:var(--blue-dim);border:1px solid var(--border2);border-radius:10px;padding:7px 14px;font-size:13px;font-weight:600;color:var(--blue2)">
+        <span style="width:24px;height:24px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700">${user[0].toUpperCase()}</span>
+        ${user}
+      </div>
+      <button onclick="logout()" style="background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:500;padding:7px 14px;border-radius:10px;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--border2)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">Log out</button>
+    </div>
+  `);
+})();
+
+function logout(){
+  localStorage.removeItem('uu_logged_in');
+  localStorage.removeItem('uu_user');
+  window.location.href='login.html';
+}
+
 // ── ALL 23 AGENTS ──
 const ALL_AGENTS=[
   {name:'CNFans',domain:'cnfans.com',url:'https://cnfans.com/?ref=uusource',tag:'TOP RATED',desc:'Excellent QC photos, great UI and fast shipping options.'},
