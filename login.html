@@ -360,6 +360,9 @@ html,body{height:100%;font-family:'Space Grotesk',sans-serif;background:var(--bg
 </div>
 
 <script>
+// If already logged in, redirect to homepage
+if(localStorage.getItem('uu_logged_in')==='true'){window.location.href='index.html';}
+
 // Stars
 const starsEl=document.getElementById('stars');
 for(let i=0;i<30;i++){
@@ -389,8 +392,38 @@ function switchToLogin(){
   document.querySelectorAll('.form-tab')[0].click();
 }
 
-// Password toggle
-function togglePw(id,btn){
+// Login action
+document.querySelectorAll('.submit-btn')[0].addEventListener('click',function(){
+  const email=document.querySelector('#login-panel input[type="email"]').value.trim();
+  const pw=document.getElementById('pw1').value.trim();
+  if(!email||!pw){alert('Please fill in all fields.');return;}
+  localStorage.setItem('uu_logged_in','true');
+  localStorage.setItem('uu_user',email.split('@')[0]);
+  window.location.href='index.html';
+});
+
+// Signup action
+document.querySelectorAll('.submit-btn')[1].addEventListener('click',function(){
+  const username=document.querySelector('#signup-panel input[type="text"]').value.trim();
+  const email=document.querySelector('#signup-panel input[type="email"]').value.trim();
+  const pw=document.getElementById('pw2').value.trim();
+  const pw2=document.getElementById('pw3').value.trim();
+  if(!username||!email||!pw){alert('Please fill in all fields.');return;}
+  if(pw!==pw2){alert('Passwords do not match.');return;}
+  localStorage.setItem('uu_logged_in','true');
+  localStorage.setItem('uu_user',username);
+  window.location.href='index.html';
+});
+
+// Enter key
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter')return;
+  if(!document.getElementById('signup-panel').classList.contains('show')){
+    document.querySelectorAll('.submit-btn')[0].click();
+  } else {
+    document.querySelectorAll('.submit-btn')[1].click();
+  }
+});
   const inp=document.getElementById(id);
   if(inp.type==='password'){inp.type='text';btn.textContent='🙈';}
   else{inp.type='password';btn.textContent='👁';}
