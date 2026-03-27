@@ -25,16 +25,67 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 @keyframes orbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}
 
 /* NAV */
-nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(4,6,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+nav{position:sticky;top:0;z-index:100;background:rgba(4,6,15,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-top{display:flex;align-items:center;justify-content:space-between;padding:12px 32px}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;background:linear-gradient(135deg,#fff 0%,var(--blue2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
 .logo-dot{display:inline-block;width:7px;height:7px;background:var(--blue);border-radius:50%;margin-left:2px;vertical-align:middle;margin-bottom:3px;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--blue-glow)}50%{box-shadow:0 0 0 7px transparent}}
-.nav-right{display:flex;align-items:center;gap:16px}
-.nav-links{display:flex;gap:20px;align-items:center}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s}
-.nav-links a:hover{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:10px}
 .nav-cta{background:linear-gradient(135deg,var(--blue),#2563eb);color:#fff;font-weight:600;font-size:13px;padding:8px 18px;border-radius:10px;text-decoration:none;box-shadow:0 0 20px var(--blue-glow);transition:opacity .2s,transform .2s}
 .nav-cta:hover{opacity:.9;transform:translateY(-1px)}
+.nav-tabs{display:flex;align-items:center;gap:2px;padding:0 32px;border-top:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nav-tab{background:none;border:none;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:500;padding:10px 16px;cursor:pointer;transition:color .2s,border-color .2s;border-bottom:2px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--blue2);border-bottom-color:var(--blue)}
+.dropdown-panel{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(6,9,20,0.98);backdrop-filter:blur(24px);border-bottom:1px solid var(--border2);z-index:99;padding:28px 32px;animation:slideDown .2s ease}
+.dropdown-panel.open{display:block}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.nav-icon-btn{background:none;border:1px solid var(--border);color:var(--muted);width:36px;height:36px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .2s}
+.nav-icon-btn:hover,.nav-icon-btn.active{border-color:var(--border2);color:var(--blue2);background:var(--blue-dim)}
+.lc-badge{font-size:10px;font-weight:700;color:var(--blue2)}
+/* COUPONS */
+.coupon-agents{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.ca-btn{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--muted);transition:all .2s;font-family:'Space Grotesk',sans-serif}
+.ca-btn:hover,.ca-btn.sel{border-color:var(--blue);color:var(--blue2);background:var(--blue-dim)}
+.ca-btn img{width:18px;height:18px;border-radius:4px}
+.coupons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;max-height:260px;overflow-y:auto}
+.coupon-card{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;overflow:hidden}
+.coupon-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(135deg,var(--blue),#2563eb)}
+.coupon-code{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--blue2)}
+.coupon-desc{font-size:11px;color:var(--muted);margin-top:1px}
+.copy-btn{background:var(--blue-dim);border:1px solid var(--border2);color:var(--blue2);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;padding:6px 12px;border-radius:7px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.copy-btn:hover{background:var(--blue);color:#fff}
+.coupon-empty{color:var(--muted);font-size:13px;text-align:center;padding:24px;grid-column:1/-1}
+/* LINK CONVERTER */
+.conv-wrap{max-width:680px}
+.conv-wrap h3{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:4px}
+.conv-wrap p{color:var(--muted);font-size:13px;margin-bottom:16px}
+.conv-row{display:flex;gap:10px;margin-bottom:12px}
+.conv-row input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:11px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:14px;padding:12px 16px;outline:none;transition:border-color .2s}
+.conv-row input:focus{border-color:var(--blue)}
+.conv-row input::placeholder{color:var(--muted2)}
+.conv-go{background:linear-gradient(135deg,var(--blue),#2563eb);border:none;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;padding:0 22px;border-radius:11px;cursor:pointer;box-shadow:0 0 14px var(--blue-glow);white-space:nowrap;transition:opacity .2s}
+.conv-go:hover{opacity:.9}
+.conv-result{background:var(--surface2);border:1px solid var(--border2);border-radius:11px;padding:14px 16px;display:none;align-items:center;gap:10px;margin-bottom:12px}
+.conv-result.show{display:flex}
+.conv-result-url{font-size:13px;color:var(--blue2);word-break:break-all;flex:1}
+.conv-copy{background:var(--blue-dim);border:1px solid var(--border2);color:var(--blue2);font-size:11px;font-weight:700;padding:6px 12px;border-radius:7px;cursor:pointer;white-space:nowrap;font-family:'Space Grotesk',sans-serif;transition:all .2s}
+.conv-copy:hover{background:var(--blue);color:#fff}
+.conv-examples{display:flex;gap:8px;flex-wrap:wrap}
+.conv-ex{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:11px;color:var(--muted);cursor:pointer;transition:all .2s}
+.conv-ex:hover{border-color:var(--border2);color:var(--blue2)}
+/* LANGUAGE & CURRENCY */
+.lc-wrap{max-width:480px}
+.lc-wrap h3{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:18px}
+.lc-section{margin-bottom:18px}
+.lc-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.lc-grid{display:flex;flex-wrap:wrap;gap:7px}
+.lc-btn{background:var(--surface2);border:1px solid var(--border);border-radius:9px;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:500;padding:8px 16px;cursor:pointer;transition:all .2s}
+.lc-btn:hover{border-color:var(--border2);color:var(--text)}
+.lc-btn.active{background:var(--blue-dim);border-color:var(--blue2);color:var(--blue2);font-weight:700}
+.lc-confirm{background:linear-gradient(135deg,var(--blue),#2563eb);border:none;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;padding:11px 28px;border-radius:11px;cursor:pointer;box-shadow:0 0 14px var(--blue-glow);margin-top:4px;transition:opacity .2s}
+.lc-confirm:hover{opacity:.9}
 
 /* SEARCH BAR TOP */
 .search-top{position:relative;z-index:1;padding:20px 32px 0;max-width:900px;margin:0 auto}
@@ -195,14 +246,70 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28
 
 <!-- NAV -->
 <nav>
-  <a class="logo" href="#" onclick="showHome()">UUSource<span class="logo-dot"></span></a>
-  <div class="nav-right">
-    <div class="nav-links">
-      <a href="#agents-section">Agents</a>
-      <a href="#">How it works</a>
-      <a href="#">Discord</a>
+  <div class="nav-top">
+    <a class="logo" href="#" onclick="showHome();closeAllDropdowns()">UUSource<span class="logo-dot"></span></a>
+    <div class="nav-right">
+      <button class="nav-icon-btn" id="lc-icon-btn" onclick="toggleDropdown('lc-panel')" title="Language & Currency">
+        <span class="lc-badge" id="lc-badge">EN</span>
+      </button>
+      <a class="nav-cta" href="login.html">Sign up free</a>
     </div>
-    <a class="nav-cta" href="#agents-section">Sign up free</a>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showHome();setActiveTab(this)">🔥 Find Products</button>
+    <button class="nav-tab" onclick="toggleDropdown('coupons-panel');setActiveTab(this)">🎟️ Coupons</button>
+    <button class="nav-tab" onclick="toggleDropdown('converter-panel');setActiveTab(this)">🔗 Link Converter</button>
+    <button class="nav-tab" onclick="location.href='#agents-section'">🛒 Agents</button>
+    <button class="nav-tab" onclick="location.href='https://discord.gg/' target='_blank'">💬 Discord</button>
+  </div>
+
+  <!-- COUPONS DROPDOWN -->
+  <div class="dropdown-panel" id="coupons-panel">
+    <div style="max-width:1300px;margin:0 auto">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;margin-bottom:4px">Agent Coupons</div>
+      <div style="color:var(--muted);font-size:13px;margin-bottom:16px">Select an agent to see available coupon codes</div>
+      <div class="coupon-agents" id="coupon-agents-row"></div>
+      <div class="coupons-grid" id="coupons-grid"><div class="coupon-empty">Select an agent above to see coupon codes</div></div>
+    </div>
+  </div>
+
+  <!-- LINK CONVERTER DROPDOWN -->
+  <div class="dropdown-panel" id="converter-panel">
+    <div class="conv-wrap">
+      <h3>Link Converter</h3>
+      <p>Paste a CNFans, Acbuy, Sugargoo or any agent link — get the original Taobao / Weidian / 1688 link back</p>
+      <div class="conv-row">
+        <input type="text" id="conv-input" placeholder="Paste agent link here (cnfans.com, acbuy.com, sugargoo.com...)">
+        <button class="conv-go" onclick="convertLink()">Convert →</button>
+      </div>
+      <div class="conv-result" id="conv-result">
+        <span class="conv-result-url" id="conv-url"></span>
+        <button class="conv-copy" onclick="copyConvResult()">Copy</button>
+      </div>
+      <div class="conv-examples">
+        <span style="font-size:11px;color:var(--muted2);margin-right:4px">Examples:</span>
+        <span class="conv-ex" onclick="fillConvExample('cnfans')">CNFans link</span>
+        <span class="conv-ex" onclick="fillConvExample('acbuy')">Acbuy link</span>
+        <span class="conv-ex" onclick="fillConvExample('sugargoo')">Sugargoo link</span>
+        <span class="conv-ex" onclick="fillConvExample('mulebuy')">Mulebuy link</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LANGUAGE & CURRENCY DROPDOWN -->
+  <div class="dropdown-panel" id="lc-panel">
+    <div class="lc-wrap">
+      <h3>Language & Currency</h3>
+      <div class="lc-section">
+        <div class="lc-label">Language</div>
+        <div class="lc-grid" id="lang-grid"></div>
+      </div>
+      <div class="lc-section">
+        <div class="lc-label">Currency</div>
+        <div class="lc-grid" id="curr-grid"></div>
+      </div>
+      <button class="lc-confirm" onclick="confirmLC()">Confirm</button>
+    </div>
   </div>
 </nav>
 
@@ -635,6 +742,185 @@ function renderAgents(){
   });
 }
 renderAgents();
+
+// ── DROPDOWN / NAV ──
+function closeAllDropdowns(){
+  document.querySelectorAll('.dropdown-panel').forEach(p=>p.classList.remove('open'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+}
+
+function toggleDropdown(id){
+  const panel=document.getElementById(id);
+  const isOpen=panel.classList.contains('open');
+  closeAllDropdowns();
+  if(!isOpen) panel.classList.add('open');
+}
+
+function setActiveTab(el){
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+document.addEventListener('click',function(e){
+  if(!e.target.closest('nav')) closeAllDropdowns();
+});
+
+// ── COUPONS ──
+const COUPONS_DATA = {
+  cnfans:    [{code:'UUSOURCE10',desc:'10% off service fee'},{code:'CNFANS5',desc:'5 CNY off orders over 200 CNY'},{code:'NEWUSER',desc:'New user welcome discount'}],
+  kakobuy:   [{code:'KAKOUUS',desc:'¥5 off first order'},{code:'KAKO10',desc:'10% off shipping fee'},{code:'UUSOURCE',desc:'Welcome bonus for new users'}],
+  sugargoo:  [{code:'SUGAR5',desc:'5% discount on service fee'},{code:'UUSOURCE',desc:'Free QC photos on first haul'}],
+  mulebuy:   [{code:'MULE10',desc:'10% off service fee first order'},{code:'UUSOURCE5',desc:'5 CNY welcome coupon'}],
+  hipobuy:   [{code:'HIPO5',desc:'5% off service fee'},{code:'UUSOURCE',desc:'New user exclusive discount'}],
+  superbuy:  [{code:'SUPER10',desc:'10 CNY off first order'},{code:'UUSOURCE',desc:'Welcome discount for new signups'}],
+  pandabuy:  [{code:'PANDA10',desc:'10% off first shipping'},{code:'UUSOURCE5',desc:'5 CNY off orders over 150 CNY'}],
+  acbuy:     [{code:'ACBUY10',desc:'10% off service fee'},{code:'UUSOURCE',desc:'New user coupon'}],
+  allchinabuy:[{code:'ACB5',desc:'5% discount on all orders'},{code:'UUSOURCE10',desc:'Welcome bonus for new users'}],
+  oopbuy:    [{code:'OOP10',desc:'10% off service fee'},{code:'UUSOURCE',desc:'Exclusive welcome code'}],
+};
+
+const COUPON_AGENT_LIST=[
+  {key:'cnfans',name:'CNFans',domain:'cnfans.com'},
+  {key:'kakobuy',name:'KakoBuy',domain:'kakobuy.com'},
+  {key:'sugargoo',name:'Sugargoo',domain:'sugargoo.com'},
+  {key:'mulebuy',name:'Mulebuy',domain:'mulebuy.com'},
+  {key:'hipobuy',name:'Hipobuy',domain:'hipobuy.com'},
+  {key:'superbuy',name:'Superbuy',domain:'superbuy.com'},
+  {key:'pandabuy',name:'Pandabuy',domain:'pandabuy.com'},
+  {key:'acbuy',name:'Acbuy',domain:'acbuy.com'},
+  {key:'allchinabuy',name:'AllChinaBuy',domain:'allchinabuy.com'},
+  {key:'oopbuy',name:'Oopbuy',domain:'oopbuy.com'},
+];
+
+(function renderCouponAgents(){
+  const row=document.getElementById('coupon-agents-row');
+  if(!row)return;
+  row.innerHTML=COUPON_AGENT_LIST.map(a=>`
+    <button class="ca-btn" onclick="selectCouponAgent('${a.key}',this)">
+      <img src="https://www.google.com/s2/favicons?sz=32&domain=${a.domain}" onerror="this.style.display='none'">
+      ${a.name}
+    </button>`).join('');
+})();
+
+function selectCouponAgent(key,el){
+  document.querySelectorAll('.ca-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  const grid=document.getElementById('coupons-grid');
+  const coupons=COUPONS_DATA[key]||[];
+  if(coupons.length===0){
+    grid.innerHTML='<div class="coupon-empty">No coupons available for this agent yet.</div>';
+    return;
+  }
+  grid.innerHTML=coupons.map(c=>`
+    <div class="coupon-card">
+      <div><div class="coupon-code">${c.code}</div><div class="coupon-desc">${c.desc}</div></div>
+      <button class="copy-btn" onclick="copyCoupon('${c.code}',this)">Copy</button>
+    </div>`).join('');
+}
+
+function copyCoupon(code,btn){
+  navigator.clipboard.writeText(code).then(()=>{
+    btn.textContent='Copied!';btn.style.background='var(--blue)';btn.style.color='#fff';
+    setTimeout(()=>{btn.textContent='Copy';btn.style.background='';btn.style.color=''},2000);
+  });
+}
+
+// ── LINK CONVERTER ──
+const CONV_EXAMPLES={
+  cnfans:'https://cnfans.com/product/?shop_type=taobao&id=615584108704',
+  acbuy:'https://www.acbuy.com/product?id=615584108704&platform=taobao',
+  sugargoo:'https://www.sugargoo.com/#/home/productDetail?productLink=https://item.taobao.com/item.htm?id=615584108704',
+  mulebuy:'https://www.mulebuy.com/product/?id=615584108704&shop_type=taobao',
+};
+
+function fillConvExample(key){
+  document.getElementById('conv-input').value=CONV_EXAMPLES[key]||'';
+}
+
+function convertLink(){
+  const input=document.getElementById('conv-input').value.trim();
+  if(!input){return;}
+  
+  let result='';
+  
+  // Extract item ID from various agent URL patterns
+  const idMatch=input.match(/[?&](?:id|itemId|item_id|productId)=(\d{10,})/i)
+    || input.match(/\/(\d{10,})(?:[/?&#]|$)/)
+    || input.match(/id=(\d{10,})/i);
+  
+  if(idMatch){
+    const itemId=idMatch[1];
+    // Detect platform
+    if(input.includes('weidian')||input.includes('shop_type=weidian')||input.includes('platform=weidian')){
+      result=`https://weidian.com/item.html?itemID=${itemId}`;
+    } else if(input.includes('1688')||input.includes('shop_type=1688')){
+      result=`https://detail.1688.com/offer/${itemId}.html`;
+    } else {
+      result=`https://item.taobao.com/item.htm?id=${itemId}`;
+    }
+  }
+  
+  // Direct productLink extraction (Sugargoo style)
+  const linkMatch=input.match(/productLink=([^&]+)/);
+  if(linkMatch){
+    try{result=decodeURIComponent(linkMatch[1]);}catch{}
+  }
+  
+  // Direct url param extraction
+  const urlMatch=input.match(/[?&]url=([^&]+)/);
+  if(urlMatch&&!linkMatch){
+    try{result=decodeURIComponent(urlMatch[1]);}catch{}
+  }
+  
+  const resEl=document.getElementById('conv-result');
+  const urlEl=document.getElementById('conv-url');
+  
+  if(result){
+    urlEl.textContent=result;
+    resEl.classList.add('show');
+  } else {
+    urlEl.textContent='Could not extract original link. Try a different URL format.';
+    resEl.classList.add('show');
+  }
+}
+
+function copyConvResult(){
+  const url=document.getElementById('conv-url').textContent;
+  navigator.clipboard.writeText(url).then(()=>{
+    const btn=document.querySelector('.conv-copy');
+    btn.textContent='Copied!';btn.style.background='var(--blue)';btn.style.color='#fff';
+    setTimeout(()=>{btn.textContent='Copy';btn.style.background='';btn.style.color=''},2000);
+  });
+}
+
+// ── LANGUAGE & CURRENCY ──
+const LANGS=[{code:'EN',label:'English'},{code:'PT',label:'Português'},{code:'ES',label:'Español'},{code:'FR',label:'Français'},{code:'DE',label:'Deutsch'},{code:'PL',label:'Polski'}];
+const CURRENCIES=[{code:'USD',symbol:'$'},{code:'CNY',symbol:'¥'},{code:'EUR',symbol:'€'},{code:'GBP',symbol:'£'},{code:'NZD',symbol:'NZ$'},{code:'AUD',symbol:'A$'},{code:'CAD',symbol:'C$'}];
+
+let selLang=localStorage.getItem('uu_lang')||'EN';
+let selCurr=localStorage.getItem('uu_curr')||'USD';
+
+function renderLC(){
+  const lg=document.getElementById('lang-grid');
+  const cg=document.getElementById('curr-grid');
+  if(!lg||!cg)return;
+  lg.innerHTML=LANGS.map(l=>`<button class="lc-btn${l.code===selLang?' active':''}" onclick="selLang='${l.code}';renderLC()">${l.label}</button>`).join('');
+  cg.innerHTML=CURRENCIES.map(c=>`<button class="lc-btn${c.code===selCurr?' active':''}" onclick="selCurr='${c.code}';renderLC()">${c.code} ${c.symbol}</button>`).join('');
+  const badge=document.getElementById('lc-badge');
+  if(badge) badge.textContent=selLang+' · '+selCurr;
+}
+renderLC();
+
+function confirmLC(){
+  localStorage.setItem('uu_lang',selLang);
+  localStorage.setItem('uu_curr',selCurr);
+  renderLC();
+  closeAllDropdowns();
+  // Show confirmation
+  const badge=document.getElementById('lc-badge');
+  if(badge){badge.style.color='#4ade80';setTimeout(()=>{badge.style.color=''},1500);}
+}
+
 </script>
 </body>
 </html>
