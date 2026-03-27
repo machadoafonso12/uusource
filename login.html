@@ -276,7 +276,7 @@ html,body{height:100%;font-family:'Space Grotesk',sans-serif;background:var(--bg
         <div class="input-group">
           <label>Username</label>
           <div class="input-wrap">
-            <input type="text" placeholder="Choose a username">
+            <input type="text" id="signup-username" placeholder="Choose a username">
           </div>
         </div>
 
@@ -318,20 +318,19 @@ html,body{height:100%;font-family:'Space Grotesk',sans-serif;background:var(--bg
     <div class="stars" id="stars"></div>
 
     <div class="banner-badge">
-      <img src="https://www.google.com/s2/favicons?sz=64&domain=kakobuy.com" alt="KakoBuy">
-      UUSource × KakoBuy
+      ✦ UUSource — Trusted Agents
     </div>
 
     <div class="banner-card">
-      <div class="card-logo">KAKOBUY COUPON</div>
-      <div class="card-amount"><span class="card-currency">¥</span>100</div>
-      <div class="card-label">COUPONS + WELCOME GIFT</div>
+      <div class="card-logo">EXCLUSIVE WELCOME BONUS</div>
+      <div class="card-amount" style="font-size:60px;margin:10px 0">🎁</div>
+      <div class="card-label">SIGN UP & GET REWARDS</div>
     </div>
 
-    <div class="banner-title">Sign up via<br><span>UUSource</span></div>
-    <div class="banner-desc">Register through our link and get exclusive bonuses on your first order. Available on all partner agents.</div>
+    <div class="banner-title">Join <span>UUSource</span><br>for free</div>
+    <div class="banner-desc">Access all agents, QC photos and product search in one place. 100% free, forever.</div>
 
-    <a href="https://kakobuy.com/sign-up?inviteCode=uusource" target="_blank" class="banner-cta">Sign up now ›</a>
+    <a href="#" onclick="document.querySelectorAll('.form-tab')[1].click();return false;" class="banner-cta">Create free account ›</a>
 
     <div class="banner-agents-row">
       <div class="banner-mini-agent">
@@ -373,7 +372,7 @@ function doLogin(){
 }
 
 function doSignup(){
-  const username=document.querySelector('#signup-panel input[type="text"]').value.trim();
+  const username=document.getElementById('signup-username').value.trim();
   const email=document.querySelector('#signup-panel input[type="email"]').value.trim();
   const pw=document.getElementById('pw2').value.trim();
   const pw2=document.getElementById('pw3').value.trim();
