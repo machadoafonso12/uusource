@@ -249,6 +249,20 @@ nav{position:sticky;top:0;z-index:200;background:rgba(4,6,15,0.95);backdrop-filt
 .finds-loading{display:none;align-items:center;gap:12px;padding:60px;justify-content:center;color:var(--muted);font-size:14px}
 .finds-loading.show{display:flex}
 
+/* BRANDS */
+.brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.brand-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .22s;text-decoration:none}
+.brand-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 24px rgba(79,143,255,0.14)}
+.brand-logo{width:36px;height:36px;object-fit:contain;filter:invert(1) brightness(0.8);flex-shrink:0}
+.brand-info-name{font-weight:700;font-size:13px;color:var(--text)}
+.brand-info-count{font-size:11px;color:var(--muted);margin-top:1px}
+
+/* CARD EXTRA INFO */
+.p-extra{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.p-sales{font-size:10px;font-weight:600;background:rgba(52,211,153,0.12);color:#34d399;border:1px solid rgba(52,211,153,0.2);padding:2px 7px;border-radius:5px}
+.p-qc{font-size:10px;font-weight:600;background:var(--blue-dim);color:var(--blue2);border:1px solid var(--border2);padding:2px 7px;border-radius:5px}
+.p-price-converted{font-size:11px;color:var(--muted);margin-top:-4px;margin-bottom:8px}
+
 footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28px 32px;display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px;flex-wrap:wrap;gap:10px}
 
 @media(max-width:900px){
@@ -382,22 +396,31 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28
     <div class="banner-agents" id="banner-agents-row"></div>
   </div>
 
-  <!-- CATEGORIES -->
+  <!-- POPULAR BRANDS -->
   <div class="section" style="padding-top:28px">
+    <div class="section-hdr">
+      <div class="section-ttl">Popular Brands <span class="badge">TOP</span></div>
+      <a class="see-all" href="brands.html">View More →</a>
+    </div>
+    <div class="brands-grid" id="brands-grid"></div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="section" style="padding-top:24px">
     <div class="section-hdr">
       <div class="section-ttl">Categories <span class="badge">BROWSE</span></div>
     </div>
     <div class="cats-row">
-      <a class="cat-card on" onclick="loadFinds('sneakers shoes',this)"><span class="cat-icon">🔥</span><span class="cat-name">All</span></a>
-      <a class="cat-card" onclick="loadFinds('Nike Adidas sneakers',this)"><span class="cat-icon">👟</span><span class="cat-name">Shoes</span></a>
-      <a class="cat-card" onclick="loadFinds('graphic tshirt',this)"><span class="cat-icon">👕</span><span class="cat-name">T-Shirts</span></a>
-      <a class="cat-card" onclick="loadFinds('hoodie sweatshirt',this)"><span class="cat-icon">🦺</span><span class="cat-name">Hoodies</span></a>
-      <a class="cat-card" onclick="loadFinds('streetwear jacket coat',this)"><span class="cat-icon">🧥</span><span class="cat-name">Coats</span></a>
-      <a class="cat-card" onclick="loadFinds('jeans pants',this)"><span class="cat-icon">👖</span><span class="cat-name">Pants</span></a>
-      <a class="cat-card" onclick="loadFinds('knit sweater',this)"><span class="cat-icon">🧶</span><span class="cat-name">Sweaters</span></a>
-      <a class="cat-card" onclick="loadFinds('luxury bag handbag',this)"><span class="cat-icon">👜</span><span class="cat-name">Bags</span></a>
-      <a class="cat-card" onclick="loadFinds('accessories belt cap hat',this)"><span class="cat-icon">💎</span><span class="cat-name">Accessories</span></a>
-      <a class="cat-card" onclick="loadFinds('luxury watch',this)"><span class="cat-icon">⌚</span><span class="cat-name">Watches</span></a>
+      <a class="cat-card on" onclick="loadFinds('Nike Supreme rep finds',this)"><span class="cat-icon">🔥</span><span class="cat-name">All</span></a>
+      <a class="cat-card" onclick="loadFinds('Nike Jordan Dunk rep shoes',this)"><span class="cat-icon">👟</span><span class="cat-name">Shoes</span></a>
+      <a class="cat-card" onclick="loadFinds('Supreme Off-White graphic tee',this)"><span class="cat-icon">👕</span><span class="cat-name">T-Shirts</span></a>
+      <a class="cat-card" onclick="loadFinds('Essentials Fear of God hoodie rep',this)"><span class="cat-icon">🦺</span><span class="cat-name">Hoodies</span></a>
+      <a class="cat-card" onclick="loadFinds('Stone Island Moncler jacket rep',this)"><span class="cat-icon">🧥</span><span class="cat-name">Coats</span></a>
+      <a class="cat-card" onclick="loadFinds('Balenciaga jeans rep pants',this)"><span class="cat-icon">👖</span><span class="cat-name">Pants</span></a>
+      <a class="cat-card" onclick="loadFinds('luxury knit sweater rep',this)"><span class="cat-icon">🧶</span><span class="cat-name">Sweaters</span></a>
+      <a class="cat-card" onclick="loadFinds('LV Gucci Chanel bag rep',this)"><span class="cat-icon">👜</span><span class="cat-name">Bags</span></a>
+      <a class="cat-card" onclick="loadFinds('Chrome Hearts belt cap rep',this)"><span class="cat-icon">💎</span><span class="cat-name">Accessories</span></a>
+      <a class="cat-card" onclick="loadFinds('Rolex AP luxury watch rep',this)"><span class="cat-icon">⌚</span><span class="cat-name">Watches</span></a>
     </div>
   </div>
 
@@ -524,7 +547,50 @@ const BANNER_AGENTS=[
 })();
 
 // ── POPULAR FINDS (real API) ──
-const FIND_KEYWORDS=['sneakers shoes','graphic tshirt','hoodie sweatshirt','streetwear jacket','jeans pants','luxury bag','accessories belt','Nike Adidas shoes','knit sweater','luxury watch'];
+// ── CURRENCY RATES ──
+const RATES={CNY:1,USD:0.138,EUR:0.127,GBP:0.109,NZD:0.228,AUD:0.212,CAD:0.188};
+const SYMBOLS={CNY:'¥',USD:'$',EUR:'€',GBP:'£',NZD:'NZ$',AUD:'A$',CAD:'C$'};
+function convertPrice(cnyPrice){
+  const curr=localStorage.getItem('uu_curr')||'CNY';
+  if(curr==='CNY')return null;
+  const num=parseFloat(String(cnyPrice).replace(/[^0-9.]/g,''));
+  if(isNaN(num)||num===0)return null;
+  const converted=(num*(RATES[curr]||1)).toFixed(2);
+  return SYMBOLS[curr]+converted;
+}
+
+// ── POPULAR BRANDS ──
+const BRANDS=[
+  {name:'Nike',search:'Nike Jordan Dunk rep',logo:'https://1000logos.net/wp-content/uploads/2021/11/Nike-Logo.png',count:'26,798'},
+  {name:'Louis Vuitton',search:'LV bag rep',logo:'https://1000logos.net/wp-content/uploads/2021/09/Louis-Vuitton-logo.png',count:'8,009'},
+  {name:'adidas',search:'Adidas rep shoes',logo:'https://1000logos.net/wp-content/uploads/2019/06/Adidas-Logo.png',count:'6,715'},
+  {name:'Supreme',search:'Supreme box logo tee rep',logo:'https://1000logos.net/wp-content/uploads/2017/05/Supreme-logo.png',count:'5,200'},
+  {name:'Gucci',search:'Gucci rep bag',logo:'https://1000logos.net/wp-content/uploads/2020/03/Gucci-Logo.png',count:'3,912'},
+  {name:'Stone Island',search:'Stone Island rep jacket',logo:'https://www.google.com/s2/favicons?sz=64&domain=stoneisland.com',count:'3,513'},
+  {name:'Balenciaga',search:'Balenciaga Triple S rep',logo:'https://1000logos.net/wp-content/uploads/2020/09/Balenciaga-Logo.png',count:'2,985'},
+  {name:'Essentials',search:'Fear of God Essentials rep hoodie',logo:'https://www.google.com/s2/favicons?sz=64&domain=essentialsfog.com',count:'3,474'},
+  {name:'Chrome Hearts',search:'Chrome Hearts rep jewelry',logo:'https://www.google.com/s2/favicons?sz=64&domain=chromehearts.com',count:'4,254'},
+  {name:'New Balance',search:'New Balance 550 990 rep',logo:'https://1000logos.net/wp-content/uploads/2020/09/New-Balance-Logo.png',count:'2,089'},
+  {name:'Moncler',search:'Moncler rep jacket',logo:'https://www.google.com/s2/favicons?sz=64&domain=moncler.com',count:'3,446'},
+  {name:'Burberry',search:'Burberry rep',logo:'https://1000logos.net/wp-content/uploads/2020/09/Burberry-Logo.png',count:'3,357'},
+];
+function renderBrands(){
+  const grid=document.getElementById('brands-grid');
+  if(!grid)return;
+  grid.innerHTML=BRANDS.map(b=>`
+    <a class="brand-card" onclick="searchBrand('${b.search}')">
+      <img class="brand-logo" src="${b.logo}" alt="${b.name}" onerror="this.style.display='none'">
+      <div><div class="brand-info-name">${b.name}</div><div class="brand-info-count">${b.count} products</div></div>
+    </a>`).join('');
+}
+renderBrands();
+function searchBrand(q){
+  document.getElementById('search-input').value=q;
+  loadFinds(q);
+  setTimeout(()=>window.scrollTo({top:document.getElementById('trending-grid')?.offsetTop-100,behavior:'smooth'}),200);
+}
+
+const FIND_KEYWORDS=['Nike Jordan Dunk rep shoes','Supreme rep tee','Stone Island Moncler jacket rep','LV Gucci bag rep','Essentials hoodie rep','Balenciaga Triple S rep','Chrome Hearts jewelry rep','New Balance 550 rep','Off-White Virgil rep','Corteiz rep','Burberry rep','Ralph Lauren rep'];
 let currentKeyword=FIND_KEYWORDS[0];
 
 async function loadFinds(keyword,catEl){
@@ -582,6 +648,10 @@ function renderFindsGrid(items,grid){
   items.forEach((p,i)=>{
     const agentLinks=AGENTS.map(a=>`<a class="agent-btn" href="${a.url}${encodeURIComponent(p.url)}" target="_blank">${a.name}</a>`).join('');
     const imgHtml=p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='📦'">`:'📦';
+    const converted=convertPrice(p.price);
+    const convertedHtml=converted?`<div class="p-price-converted">≈ ${converted}</div>`:'';
+    const salesNum=p.sales&&p.sales!=='0'?`<span class="p-sales">${parseInt(p.sales).toLocaleString()} sold</span>`:'';
+    const qcNum=p.images?.length>0?`<span class="p-qc">📸 ${p.images.length} QC photos</span>`:'';
     const card=document.createElement('div');
     card.className='product-card';
     card.style.animationDelay=`${i*0.04}s`;
@@ -590,6 +660,8 @@ function renderFindsGrid(items,grid){
       <div class="p-info">
         <div class="p-name">${p.name}</div>
         <div class="p-price">¥ ${p.price}</div>
+        ${convertedHtml}
+        <div class="p-extra">${salesNum}${qcNum}</div>
         <div class="p-meta"><span class="src-badge src-${p.source}">${p.source.toUpperCase()}</span></div>
         <div class="agent-links">${agentLinks}</div>
         <button class="qc-btn" onclick="event.stopPropagation();openModal(${i})">View Product Photos</button>
@@ -727,6 +799,8 @@ function normalizeItem(item,url){
       source:url?detectSource(url):detectSource(detailUrl),
       url:detailUrl,
       itemIdStr:item.itemIdStr||'',
+      sales:item.sales||item.sold||'0',
+      sales:item.sales||item.sold||'0',
     };
   }catch{return null;}
 }
