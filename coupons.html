@@ -138,96 +138,29 @@ nav{position:sticky;top:0;z-index:100;background:rgba(4,6,15,0.95);backdrop-filt
 
 <script>
 const AGENTS_DATA=[
-  {
-    key:'cnfans',name:'CNFans',domain:'cnfans.com',
-    url:'https://cnfans.com/?ref=uusource',
-    desc:'Top rated agent with excellent QC photos and fast support.',
-    coupons:[
-      {code:'CNFANS10',desc:'10% off service fee on all orders',exclusive:false},
-      {code:'NEWUSER5',desc:'5 CNY discount for new users',exclusive:false},
-    ]
-  },
-  {
-    key:'kakobuy',name:'KakoBuy',domain:'kakobuy.com',
-    url:'https://kakobuy.com/sign-up?inviteCode=uusource',
-    desc:'Modern platform growing fast with great new user promotions.',
-    coupons:[
-      {code:'KAKO10',desc:'10% off shipping fee on first haul',exclusive:false},
-      {code:'NEWKAKO',desc:'New user welcome discount',exclusive:false},
-    ]
-  },
-  {
-    key:'sugargoo',name:'Sugargoo',domain:'sugargoo.com',
-    url:'https://www.sugargoo.com/#/home/index?partnerCode=uusource',
-    desc:'Free QC photos and competitive shipping rates.',
-    coupons:[
-      {code:'SUGAR5',desc:'5% discount on service fee',exclusive:false},
-      {code:'FREEQC',desc:'Free QC photos on first haul',exclusive:false},
-    ]
-  },
-  {
-    key:'mulebuy',name:'Mulebuy',domain:'mulebuy.com',
-    url:'https://www.mulebuy.com?ref=uusource',
-    desc:'Low service fees, great for saving on every order.',
-    coupons:[
-      {code:'MULE10',desc:'10% off service fee for new users',exclusive:false},
-      {code:'MULENEW',desc:'5 CNY welcome coupon',exclusive:false},
-    ]
-  },
-  {
-    key:'hipobuy',name:'Hipobuy',domain:'hipobuy.com',
-    url:'https://www.hipobuy.com?ref=uusource',
-    desc:'Solid reputation with great customer service.',
-    coupons:[
-      {code:'HIPO5',desc:'5% off service fee',exclusive:false},
-      {code:'HIPONEW',desc:'New user exclusive discount',exclusive:false},
-    ]
-  },
-  {
-    key:'superbuy',name:'Superbuy',domain:'superbuy.com',
-    url:'https://www.superbuy.com/en/page/login/?partnercode=uusource',
-    desc:'One of the first agents. Great for large and diverse orders.',
-    coupons:[
-      {code:'SUPER10',desc:'10 CNY off first order',exclusive:false},
-      {code:'SUPERNEW',desc:'Welcome discount for new signups',exclusive:false},
-    ]
-  },
-  {
-    key:'pandabuy',name:'Pandabuy',domain:'pandabuy.com',
-    url:'https://www.pandabuy.com/signup?inviteCode=uusource',
-    desc:'Most used by the community. Modern interface and fast support.',
-    coupons:[
-      {code:'PANDA10',desc:'10% off first shipping fee',exclusive:false},
-      {code:'PANDANEW',desc:'5 CNY off orders over 150 CNY',exclusive:false},
-    ]
-  },
-  {
-    key:'acbuy',name:'Acbuy',domain:'acbuy.com',
-    url:'https://www.acbuy.com?ref=uusource',
-    desc:'Reliable agent with good pricing and support.',
-    coupons:[
-      {code:'ACBUY10',desc:'10% off service fee',exclusive:false},
-      {code:'ACNEW',desc:'New user welcome coupon',exclusive:false},
-    ]
-  },
-  {
-    key:'allchinabuy',name:'AllChinaBuy',domain:'allchinabuy.com',
-    url:'https://www.allchinabuy.com?partnercode=uusource',
-    desc:'Growing platform with great sign-up promotions.',
-    coupons:[
-      {code:'ACB5',desc:'5% discount on all orders',exclusive:false},
-      {code:'ACBNEW',desc:'Welcome bonus for new users',exclusive:false},
-    ]
-  },
-  {
-    key:'oopbuy',name:'Oopbuy',domain:'oopbuy.com',
-    url:'https://www.oopbuy.com?ref=uusource',
-    desc:'Modern interface with competitive service fees.',
-    coupons:[
-      {code:'OOP10',desc:'10% off service fee',exclusive:false},
-      {code:'OOPNEW',desc:'Exclusive welcome code',exclusive:false},
-    ]
-  },
+  {key:'cnfans',name:'CNFans',domain:'cnfans.com',url:'https://cnfans.com/?ref=uusource',desc:'Top rated agent with excellent QC photos and fast support.',coupons:[{code:'CNFANS10',desc:'10% off service fee on all orders',exclusive:false},{code:'NEWUSER5',desc:'5 CNY discount for new users',exclusive:false}]},
+  {key:'kakobuy',name:'KakoBuy',domain:'kakobuy.com',url:'https://kakobuy.com/sign-up?inviteCode=uusource',desc:'Modern platform growing fast with great new user promotions.',coupons:[{code:'KAKO10',desc:'10% off shipping fee on first haul',exclusive:false},{code:'NEWKAKO',desc:'New user welcome discount',exclusive:false}]},
+  {key:'sugargoo',name:'Sugargoo',domain:'sugargoo.com',url:'https://www.sugargoo.com/#/home/index?partnerCode=uusource',desc:'Free QC photos and competitive shipping rates.',coupons:[{code:'SUGAR5',desc:'5% discount on service fee',exclusive:false},{code:'FREEQC',desc:'Free QC photos on first haul',exclusive:false}]},
+  {key:'mulebuy',name:'Mulebuy',domain:'mulebuy.com',url:'https://www.mulebuy.com?ref=uusource',desc:'Low service fees, great for saving on every order.',coupons:[{code:'MULE10',desc:'10% off service fee for new users',exclusive:false},{code:'MULENEW',desc:'5 CNY welcome coupon',exclusive:false}]},
+  {key:'hipobuy',name:'Hipobuy',domain:'hipobuy.com',url:'https://www.hipobuy.com?ref=uusource',desc:'Solid reputation with great customer service.',coupons:[{code:'HIPO5',desc:'5% off service fee',exclusive:false},{code:'HIPONEW',desc:'New user exclusive discount',exclusive:false}]},
+  {key:'superbuy',name:'Superbuy',domain:'superbuy.com',url:'https://www.superbuy.com/en/page/login/?partnercode=uusource',desc:'One of the first agents. Great for large and diverse orders.',coupons:[{code:'SUPER10',desc:'10 CNY off first order',exclusive:false},{code:'SUPERNEW',desc:'Welcome discount for new signups',exclusive:false}]},
+  {key:'acbuy',name:'Acbuy',domain:'acbuy.com',url:'https://www.acbuy.com?ref=uusource',desc:'Reliable agent with good pricing and support.',coupons:[{code:'ACBUY10',desc:'10% off service fee',exclusive:false},{code:'ACNEW',desc:'New user welcome coupon',exclusive:false}]},
+  {key:'allchinabuy',name:'AllChinaBuy',domain:'allchinabuy.com',url:'https://www.allchinabuy.com?partnercode=uusource',desc:'Growing platform with great sign-up promotions.',coupons:[{code:'ACB5',desc:'5% discount on all orders',exclusive:false},{code:'ACBNEW',desc:'Welcome bonus for new users',exclusive:false}]},
+  {key:'oopbuy',name:'Oopbuy',domain:'oopbuy.com',url:'https://www.oopbuy.com?ref=uusource',desc:'Modern interface with competitive service fees.',coupons:[{code:'OOP10',desc:'10% off service fee',exclusive:false},{code:'OOPNEW',desc:'Exclusive welcome code',exclusive:false}]},
+  {key:'orientdig',name:'Orientdig',domain:'orientdig.com',url:'https://www.orientdig.com?ref=uusource',desc:'Good for niche finds with attentive support.',coupons:[{code:'ORIENT5',desc:'5% off service fee',exclusive:false},{code:'ORIENTNEW',desc:'New user welcome discount',exclusive:false}]},
+  {key:'hubbuycn',name:'Hubbuycn',domain:'hubbuycn.com',url:'https://www.hubbuycn.com?ref=uusource',desc:'Trusted by the community for years.',coupons:[{code:'HUBNEW',desc:'Welcome discount for new users',exclusive:false}]},
+  {key:'gtbuy',name:'GTBuy',domain:'gtbuy.com',url:'https://www.gtbuy.com?ref=uusource',desc:'Good all-round agent for all product types.',coupons:[{code:'GT10',desc:'10% off first order service fee',exclusive:false},{code:'GTNEW',desc:'New user welcome coupon',exclusive:false}]},
+  {key:'itaobuy',name:'iTaoBuy',domain:'itaobuy.com',url:'https://www.itaobuy.com?ref=uusource',desc:'Long-standing agent with a loyal user base.',coupons:[{code:'ITAO5',desc:'5% off service fee',exclusive:false},{code:'ITAONEW',desc:'Welcome discount',exclusive:false}]},
+  {key:'litbuy',name:'Litbuy',domain:'litbuy.com',url:'https://www.litbuy.com?ref=uusource',desc:'Competitive rates for budget-conscious buyers.',coupons:[{code:'LIT10',desc:'10% off service fee',exclusive:false},{code:'LITNEW',desc:'New user coupon',exclusive:false}]},
+  {key:'cnshopper',name:'CNshopper',domain:'cnshopper.com',url:'https://www.cnshopper.com?ref=uusource',desc:'Beginner friendly with simple checkout flow.',coupons:[{code:'CNS5',desc:'5% off service fee',exclusive:false},{code:'CNSNEW',desc:'New user welcome discount',exclusive:false}]},
+  {key:'ootdbuy',name:'Ootdbuy',domain:'ootdbuy.com',url:'https://www.ootdbuy.com?ref=uusource',desc:'Specialised in fashion and trending items.',coupons:[{code:'OOTD5',desc:'5% off service fee on fashion',exclusive:false},{code:'OOTDNEW',desc:'Welcome bonus for new users',exclusive:false}]},
+  {key:'pantherbuy',name:'PantherBuy',domain:'pantherbuy.com',url:'https://www.pantherbuy.com?ref=uusource',desc:'Fresh platform with aggressive pricing.',coupons:[{code:'PANTHER10',desc:'10% off service fee',exclusive:false},{code:'PANTHERNEW',desc:'New user welcome offer',exclusive:false}]},
+  {key:'tigbuy',name:'Tigbuy',domain:'tigbuy.com',url:'https://www.tigbuy.com?ref=uusource',desc:'Quick growing agent with modern features.',coupons:[{code:'TIG10',desc:'10% off service fee',exclusive:false},{code:'TIGNEW',desc:'New user discount',exclusive:false}]},
+  {key:'vigorbuy',name:'Vigorbuy',domain:'vigorbuy.com',url:'https://www.vigorbuy.com?ref=uusource',desc:'Strong performance across all categories.',coupons:[{code:'VIGOR5',desc:'5% off service fee',exclusive:false},{code:'VIGORNEW',desc:'Welcome coupon for new users',exclusive:false}]},
+  {key:'fishgoo',name:'FishGoo',domain:'fishgoo.com',url:'https://www.fishgoo.com?ref=uusource',desc:'Great for hard-to-find and niche products.',coupons:[{code:'FISH5',desc:'5% off service fee',exclusive:false},{code:'FISHNEW',desc:'New user welcome offer',exclusive:false}]},
+  {key:'bbdbuy',name:'BBDbuy',domain:'bbdbuy.com',url:'https://www.bbdbuy.com?ref=uusource',desc:'Reliable with good warehouse management.',coupons:[{code:'BBD10',desc:'10% off first order',exclusive:false},{code:'BBDNEW',desc:'New user coupon',exclusive:false}]},
+  {key:'spanbuy',name:'Spanbuy',domain:'spanbuy.com',url:'https://www.spanbuy.com?ref=uusource',desc:'Emerging agent with competitive welcome offers.',coupons:[{code:'SPAN10',desc:'10% off service fee',exclusive:false},{code:'SPANNEW',desc:'Welcome bonus',exclusive:false}]},
+  {key:'rizzitgo',name:'RizzitGO',domain:'rizzitgo.com',url:'https://www.rizzitgo.com?ref=uusource',desc:'New platform with a clean modern interface.',coupons:[{code:'RIZZ10',desc:'10% off service fee',exclusive:false},{code:'RIZZNEW',desc:'New user welcome offer',exclusive:false}]},
 ];
 
 // Build selector
