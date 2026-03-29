@@ -244,6 +244,11 @@ nav{position:sticky;top:0;z-index:200;background:rgba(4,6,15,0.95);backdrop-filt
 .lightbox img{max-width:92vw;max-height:92vh;border-radius:12px}
 .lb-close{position:absolute;top:18px;right:18px;background:var(--surface);border:1px solid var(--border);color:var(--text);width:42px;height:42px;border-radius:11px;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
+.refresh-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .2s}
+.refresh-btn:hover{border-color:var(--border2);color:var(--blue2)}
+.finds-loading{display:none;align-items:center;gap:12px;padding:60px;justify-content:center;color:var(--muted);font-size:14px}
+.finds-loading.show{display:flex}
+
 footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28px 32px;display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px;flex-wrap:wrap;gap:10px}
 
 @media(max-width:900px){
@@ -377,63 +382,37 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28
     <div class="banner-agents" id="banner-agents-row"></div>
   </div>
 
-  <!-- FEATURED SECTIONS -->
-  <div class="section" style="padding-top:36px">
-    <div class="section-hdr">
-      <div class="section-ttl">Featured <span class="badge">NEW</span></div>
-    </div>
-    <div class="featured-row">
-      <div class="feat-card" onclick="document.getElementById('search-input').value='Nike Dunk';doSearch()">
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80" alt="Shoes" loading="lazy">
-        <div class="feat-card-overlay">
-          <div class="feat-card-tag">TRENDING</div>
-          <div class="feat-card-title">Sneakers</div>
-          <div class="feat-card-sub">Nike, Adidas, New Balance</div>
-        </div>
-      </div>
-      <div class="feat-card" onclick="document.getElementById('search-input').value='luxury bag';doSearch()">
-        <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80" alt="Bags" loading="lazy">
-        <div class="feat-card-overlay">
-          <div class="feat-card-tag">HOT</div>
-          <div class="feat-card-title">Bags & Accessories</div>
-          <div class="feat-card-sub">LV, Gucci, Prada finds</div>
-        </div>
-      </div>
-      <div class="feat-card" onclick="document.getElementById('search-input').value='streetwear hoodie';doSearch()">
-        <img src="https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=600&q=80" alt="Streetwear" loading="lazy">
-        <div class="feat-card-overlay">
-          <div class="feat-card-tag">POPULAR</div>
-          <div class="feat-card-title">Streetwear</div>
-          <div class="feat-card-sub">Hoodies, tees & more</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- CATEGORIES -->
-  <div class="section">
+  <div class="section" style="padding-top:28px">
     <div class="section-hdr">
       <div class="section-ttl">Categories <span class="badge">BROWSE</span></div>
     </div>
     <div class="cats-row">
-      <a class="cat-card on" onclick="filterCat('all',this)"><span class="cat-icon">🔥</span><span class="cat-name">All</span></a>
-      <a class="cat-card" onclick="filterCat('shoes',this)"><span class="cat-icon">👟</span><span class="cat-name">Shoes</span></a>
-      <a class="cat-card" onclick="filterCat('coats',this)"><span class="cat-icon">🧥</span><span class="cat-name">Coats</span></a>
-      <a class="cat-card" onclick="filterCat('bags',this)"><span class="cat-icon">👜</span><span class="cat-name">Bags</span></a>
-      <a class="cat-card" onclick="filterCat('tshirts',this)"><span class="cat-icon">👕</span><span class="cat-name">T-Shirts</span></a>
-      <a class="cat-card" onclick="filterCat('hoodies',this)"><span class="cat-icon">🦺</span><span class="cat-name">Hoodies</span></a>
-      <a class="cat-card" onclick="filterCat('watches',this)"><span class="cat-icon">⌚</span><span class="cat-name">Watches</span></a>
-      <a class="cat-card" onclick="filterCat('accessories',this)"><span class="cat-icon">💎</span><span class="cat-name">Accessories</span></a>
-      <a class="cat-card" onclick="filterCat('pants',this)"><span class="cat-icon">👖</span><span class="cat-name">Pants</span></a>
-      <a class="cat-card" onclick="filterCat('sweaters',this)"><span class="cat-icon">🧶</span><span class="cat-name">Sweaters</span></a>
+      <a class="cat-card on" onclick="loadFinds('sneakers',this)"><span class="cat-icon">🔥</span><span class="cat-name">All</span></a>
+      <a class="cat-card" onclick="loadFinds('Nike Dunk shoes',this)"><span class="cat-icon">👟</span><span class="cat-name">Shoes</span></a>
+      <a class="cat-card" onclick="loadFinds('winter coat jacket',this)"><span class="cat-icon">🧥</span><span class="cat-name">Coats</span></a>
+      <a class="cat-card" onclick="loadFinds('luxury bag handbag',this)"><span class="cat-icon">👜</span><span class="cat-name">Bags</span></a>
+      <a class="cat-card" onclick="loadFinds('graphic tshirt streetwear',this)"><span class="cat-icon">👕</span><span class="cat-name">T-Shirts</span></a>
+      <a class="cat-card" onclick="loadFinds('hoodie sweatshirt',this)"><span class="cat-icon">🦺</span><span class="cat-name">Hoodies</span></a>
+      <a class="cat-card" onclick="loadFinds('luxury watch',this)"><span class="cat-icon">⌚</span><span class="cat-name">Watches</span></a>
+      <a class="cat-card" onclick="loadFinds('accessories jewelry belt',this)"><span class="cat-icon">💎</span><span class="cat-name">Accessories</span></a>
+      <a class="cat-card" onclick="loadFinds('jeans pants trousers',this)"><span class="cat-icon">👖</span><span class="cat-name">Pants</span></a>
+      <a class="cat-card" onclick="loadFinds('knit sweater',this)"><span class="cat-icon">🧶</span><span class="cat-name">Sweaters</span></a>
     </div>
   </div>
 
-  <!-- TRENDING -->
+  <!-- POPULAR FINDS -->
   <div class="section" style="padding-bottom:40px">
     <div class="section-hdr">
-      <div class="section-ttl">Trending Now <span class="badge">HOT</span></div>
-      <a class="see-all" href="#">See all →</a>
+      <div class="section-ttl">Popular Finds <span class="badge" id="finds-badge">LOADING</span></div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="refresh-btn" onclick="refreshFinds()" title="Refresh">↻ Refresh</button>
+        <a class="see-all" href="#">See all →</a>
+      </div>
+    </div>
+    <div class="finds-loading" id="finds-loading">
+      <div class="loader"></div>
+      <span>Loading popular finds…</span>
     </div>
     <div class="trending-grid" id="trending-grid"></div>
   </div>
@@ -544,44 +523,82 @@ const BANNER_AGENTS=[
     </a>`).join('');
 })();
 
-// ── TRENDING ──
-const TRENDING=[
-  {name:'Nike Dunk Low Panda',price:'178',source:'taobao',sold:'12.4k',hot:true,url:'https://item.taobao.com/item.htm?id=615584108704'},
-  {name:'New Balance 550 White Green',price:'155',source:'1688',sold:'8.2k',url:''},
-  {name:'Air Jordan 1 Chicago',price:'210',source:'taobao',sold:'19.8k',hot:true,url:''},
-  {name:'Yeezy 350 V2 Zebra',price:'195',source:'weidian',sold:'6.1k',url:''},
-  {name:'Vans Old Skool Black',price:'89',source:'taobao',sold:'22.3k',url:''},
-  {name:'Canada Goose Jacket',price:'320',source:'taobao',sold:'3.2k',url:''},
-  {name:'UGG Classic Mini Boot',price:'165',source:'weidian',sold:'15.6k',hot:true,url:''},
-  {name:'Converse Chuck 70 Hi',price:'98',source:'1688',sold:'9.7k',url:''},
-];
-let currentProducts=[];
-function renderTrending(items){
+// ── POPULAR FINDS (real API) ──
+const FIND_KEYWORDS=['sneakers','hoodie streetwear','luxury bag','running shoes','winter jacket','graphic tee','denim jeans','accessories jewelry','watches','belt'];
+let currentKeyword=FIND_KEYWORDS[0];
+let findsPage=1;
+
+async function loadFinds(keyword,catEl){
+  if(catEl){
+    document.querySelectorAll('.cat-card').forEach(b=>b.classList.remove('on'));
+    catEl.classList.add('on');
+  }
+  currentKeyword=keyword||currentKeyword;
+  findsPage=1;
+
+  const badge=document.getElementById('finds-badge');
+  const loading=document.getElementById('finds-loading');
   const grid=document.getElementById('trending-grid');
-  if(!grid)return;
+
+  if(badge) badge.textContent='LOADING';
+  loading.classList.add('show');
   grid.innerHTML='';
-  items.forEach((p,i)=>{
-    const agentLinks=AGENTS.map(a=>`<a class="agent-btn" href="${a.url}${encodeURIComponent(p.url||'')}" target="_blank">${a.name}</a>`).join('');
-    const card=document.createElement('div');
-    card.className='product-card';card.style.animationDelay=`${i*0.05}s`;
-    card.innerHTML=`
-      <div class="p-thumb">
-        <div style="font-size:36px">👟</div>
-        <span class="sold-badge">${p.sold} Sold</span>
-        ${p.hot?'<span class="hot-badge">🔥 HOT</span>':''}
-      </div>
-      <div class="p-info">
-        <div class="p-name">${p.name}</div>
-        <div class="p-price">¥ ${p.price}</div>
-        <div class="p-meta"><span class="src-badge src-${p.source}">${p.source.toUpperCase()}</span></div>
-        <div class="agent-links">${agentLinks}</div>
-        <button class="qc-btn" onclick="event.stopPropagation();openTrendModal(${i})">View Product Photos</button>
-      </div>`;
-    card.onclick=()=>openTrendModal(i);
-    grid.appendChild(card);
-  });
+
+  try{
+    const res=await fetch(`https://taobao-datahub.p.rapidapi.com/item_search_simple?keyword=${encodeURIComponent(currentKeyword)}&page=${findsPage}`,{
+      method:'GET',
+      headers:{'x-rapidapi-key':API_KEY,'x-rapidapi-host':'taobao-datahub.p.rapidapi.com'}
+    });
+    const data=await res.json();
+    loading.classList.remove('show');
+
+    let items=[];
+    if(data.result?.item_list) items=data.result.item_list.map(i=>normalizeItem(i)).filter(Boolean);
+    else if(Array.isArray(data)) items=data.map(i=>normalizeItem(i)).filter(Boolean);
+
+    if(badge) badge.textContent=items.length>0?`${items.length} FINDS`:'NO FINDS';
+
+    if(items.length===0){
+      grid.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px;grid-column:1/-1">No finds for this category right now. Try another!</p>';
+      return;
+    }
+
+    currentProducts=items;
+    items.forEach((p,i)=>{
+      const agentLinks=AGENTS.map(a=>`<a class="agent-btn" href="${a.url}${encodeURIComponent(p.url)}" target="_blank">${a.name}</a>`).join('');
+      const imgHtml=p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='📦'">`:'📦';
+      const card=document.createElement('div');
+      card.className='product-card';
+      card.style.animationDelay=`${i*0.04}s`;
+      card.innerHTML=`
+        <div class="p-thumb">${imgHtml}</div>
+        <div class="p-info">
+          <div class="p-name">${p.name}</div>
+          <div class="p-price">¥ ${p.price}</div>
+          <div class="p-meta"><span class="src-badge src-${p.source}">${p.source.toUpperCase()}</span></div>
+          <div class="agent-links">${agentLinks}</div>
+          <button class="qc-btn" onclick="event.stopPropagation();openModal(${i})">View Product Photos</button>
+        </div>`;
+      card.onclick=()=>openModal(i);
+      grid.appendChild(card);
+    });
+
+  }catch(err){
+    loading.classList.remove('show');
+    if(badge) badge.textContent='ERROR';
+    grid.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px;grid-column:1/-1">Could not load finds. Check your API quota.</p>';
+  }
 }
-renderTrending(TRENDING);
+
+function refreshFinds(){
+  // Rotate through keywords for variety
+  const idx=FIND_KEYWORDS.indexOf(currentKeyword);
+  const next=FIND_KEYWORDS[(idx+1)%FIND_KEYWORDS.length];
+  loadFinds(next);
+}
+
+// Auto-load on page ready with a random keyword
+loadFinds(FIND_KEYWORDS[Math.floor(Math.random()*FIND_KEYWORDS.length)]);
 
 // ── ALL AGENTS ──
 const ALL_AGENTS=[
@@ -717,6 +734,7 @@ function renderResults(data,query){
 document.getElementById('search-input').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
 
 // ── MODALS ──
+let currentProducts=[];
 function openModal(idx){
   const p=currentProducts[idx];if(!p)return;
   document.getElementById('modal-title').textContent=p.name;
@@ -726,14 +744,6 @@ function openModal(idx){
   if(!photos.length){qcGrid.innerHTML='<p style="color:var(--muted);font-size:13px;grid-column:1/-1;text-align:center;padding:20px">No photos available</p>';}
   else photos.forEach(src=>{qcGrid.innerHTML+=`<div class="qc-photo"><img src="${src}" loading="lazy" onclick="openLB('${src}')" onerror="this.parentElement.style.display='none'"></div>`;});
   document.getElementById('modal-agents-grid').innerHTML=AGENTS.map(a=>`<a class="agent-card" href="${a.url}${encodeURIComponent(p.url)}" target="_blank"><div><div class="agent-name">${a.name}</div><div class="agent-desc">${a.desc}</div></div><span class="agent-arrow">→</span></a>`).join('');
-  document.getElementById('modal').classList.add('open');
-}
-function openTrendModal(idx){
-  const p=TRENDING[idx];
-  document.getElementById('modal-title').textContent=p.name;
-  document.getElementById('modal-meta').textContent=`${p.source.toUpperCase()} · ¥ ${p.price} · ${p.sold} Sold`;
-  document.getElementById('qc-grid').innerHTML='<p style="color:var(--muted);font-size:13px;grid-column:1/-1;text-align:center;padding:20px">Search this product to see real QC photos</p>';
-  document.getElementById('modal-agents-grid').innerHTML=AGENTS.map(a=>`<a class="agent-card" href="${a.url}${encodeURIComponent(p.url||'')}" target="_blank"><div><div class="agent-name">${a.name}</div><div class="agent-desc">${a.desc}</div></div><span class="agent-arrow">→</span></a>`).join('');
   document.getElementById('modal').classList.add('open');
 }
 function closeModal(e){if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('open');}
