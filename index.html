@@ -388,16 +388,16 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28
       <div class="section-ttl">Categories <span class="badge">BROWSE</span></div>
     </div>
     <div class="cats-row">
-      <a class="cat-card on" onclick="loadFinds('sneakers',this)"><span class="cat-icon">🔥</span><span class="cat-name">All</span></a>
-      <a class="cat-card" onclick="loadFinds('Nike Dunk shoes',this)"><span class="cat-icon">👟</span><span class="cat-name">Shoes</span></a>
-      <a class="cat-card" onclick="loadFinds('winter coat jacket',this)"><span class="cat-icon">🧥</span><span class="cat-name">Coats</span></a>
-      <a class="cat-card" onclick="loadFinds('luxury bag handbag',this)"><span class="cat-icon">👜</span><span class="cat-name">Bags</span></a>
-      <a class="cat-card" onclick="loadFinds('graphic tshirt streetwear',this)"><span class="cat-icon">👕</span><span class="cat-name">T-Shirts</span></a>
+      <a class="cat-card on" onclick="loadFinds('sneakers shoes',this)"><span class="cat-icon">🔥</span><span class="cat-name">All</span></a>
+      <a class="cat-card" onclick="loadFinds('Nike Adidas sneakers',this)"><span class="cat-icon">👟</span><span class="cat-name">Shoes</span></a>
+      <a class="cat-card" onclick="loadFinds('graphic tshirt',this)"><span class="cat-icon">👕</span><span class="cat-name">T-Shirts</span></a>
       <a class="cat-card" onclick="loadFinds('hoodie sweatshirt',this)"><span class="cat-icon">🦺</span><span class="cat-name">Hoodies</span></a>
-      <a class="cat-card" onclick="loadFinds('luxury watch',this)"><span class="cat-icon">⌚</span><span class="cat-name">Watches</span></a>
-      <a class="cat-card" onclick="loadFinds('accessories jewelry belt',this)"><span class="cat-icon">💎</span><span class="cat-name">Accessories</span></a>
-      <a class="cat-card" onclick="loadFinds('jeans pants trousers',this)"><span class="cat-icon">👖</span><span class="cat-name">Pants</span></a>
+      <a class="cat-card" onclick="loadFinds('streetwear jacket coat',this)"><span class="cat-icon">🧥</span><span class="cat-name">Coats</span></a>
+      <a class="cat-card" onclick="loadFinds('jeans pants',this)"><span class="cat-icon">👖</span><span class="cat-name">Pants</span></a>
       <a class="cat-card" onclick="loadFinds('knit sweater',this)"><span class="cat-icon">🧶</span><span class="cat-name">Sweaters</span></a>
+      <a class="cat-card" onclick="loadFinds('luxury bag handbag',this)"><span class="cat-icon">👜</span><span class="cat-name">Bags</span></a>
+      <a class="cat-card" onclick="loadFinds('accessories belt cap hat',this)"><span class="cat-icon">💎</span><span class="cat-name">Accessories</span></a>
+      <a class="cat-card" onclick="loadFinds('luxury watch',this)"><span class="cat-icon">⌚</span><span class="cat-name">Watches</span></a>
     </div>
   </div>
 
@@ -524,9 +524,8 @@ const BANNER_AGENTS=[
 })();
 
 // ── POPULAR FINDS (real API) ──
-const FIND_KEYWORDS=['sneakers','hoodie streetwear','luxury bag','running shoes','winter jacket','graphic tee','denim jeans','accessories jewelry','watches','belt'];
+const FIND_KEYWORDS=['sneakers shoes','graphic tshirt','hoodie sweatshirt','streetwear jacket','jeans pants','luxury bag','accessories belt','Nike Adidas shoes','knit sweater','luxury watch'];
 let currentKeyword=FIND_KEYWORDS[0];
-let findsPage=1;
 
 async function loadFinds(keyword,catEl){
   if(catEl){
@@ -534,70 +533,110 @@ async function loadFinds(keyword,catEl){
     catEl.classList.add('on');
   }
   currentKeyword=keyword||currentKeyword;
-  findsPage=1;
 
   const badge=document.getElementById('finds-badge');
   const loading=document.getElementById('finds-loading');
   const grid=document.getElementById('trending-grid');
 
-  if(badge) badge.textContent='LOADING';
+  if(badge)badge.textContent='LOADING';
   loading.classList.add('show');
   grid.innerHTML='';
 
   try{
-    const res=await fetch(`https://taobao-datahub.p.rapidapi.com/item_search_simple?keyword=${encodeURIComponent(currentKeyword)}&page=${findsPage}`,{
+    const res=await fetch(`https://taobao-datahub.p.rapidapi.com/item_search_simple?keyword=${encodeURIComponent(currentKeyword)}&page=1`,{
       method:'GET',
       headers:{'x-rapidapi-key':API_KEY,'x-rapidapi-host':'taobao-datahub.p.rapidapi.com'}
     });
     const data=await res.json();
     loading.classList.remove('show');
 
-    let items=[];
-    if(data.result?.item_list) items=data.result.item_list.map(i=>normalizeItem(i)).filter(Boolean);
-    else if(Array.isArray(data)) items=data.map(i=>normalizeItem(i)).filter(Boolean);
+    // Handle ALL possible response shapes from this API
+    let rawItems=[];
+    if(data?.result?.item_list)            rawItems=data.result.item_list;
+    else if(data?.result?.items)           rawItems=data.result.items;
+    else if(data?.data?.item_list)         rawItems=data.data.item_list;
+    else if(data?.items)                   rawItems=data.items;
+    else if(data?.item_list)               rawItems=data.item_list;
+    else if(Array.isArray(data))           rawItems=data;
+    else if(data?.result&&Array.isArray(data.result)) rawItems=data.result;
 
-    if(badge) badge.textContent=items.length>0?`${items.length} FINDS`:'NO FINDS';
+    const items=rawItems.map(i=>normalizeItem(i)).filter(Boolean);
+
+    if(badge)badge.textContent=items.length>0?`${items.length} FINDS`:'HOT';
 
     if(items.length===0){
-      grid.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px;grid-column:1/-1">No finds for this category right now. Try another!</p>';
+      // Fallback: try alternate endpoint
+      tryAlternateEndpoint(currentKeyword,grid,badge,loading);
       return;
     }
 
     currentProducts=items;
-    items.forEach((p,i)=>{
-      const agentLinks=AGENTS.map(a=>`<a class="agent-btn" href="${a.url}${encodeURIComponent(p.url)}" target="_blank">${a.name}</a>`).join('');
-      const imgHtml=p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='📦'">`:'📦';
-      const card=document.createElement('div');
-      card.className='product-card';
-      card.style.animationDelay=`${i*0.04}s`;
-      card.innerHTML=`
-        <div class="p-thumb">${imgHtml}</div>
-        <div class="p-info">
-          <div class="p-name">${p.name}</div>
-          <div class="p-price">¥ ${p.price}</div>
-          <div class="p-meta"><span class="src-badge src-${p.source}">${p.source.toUpperCase()}</span></div>
-          <div class="agent-links">${agentLinks}</div>
-          <button class="qc-btn" onclick="event.stopPropagation();openModal(${i})">View Product Photos</button>
-        </div>`;
-      card.onclick=()=>openModal(i);
-      grid.appendChild(card);
-    });
+    renderFindsGrid(items,grid);
 
   }catch(err){
     loading.classList.remove('show');
-    if(badge) badge.textContent='ERROR';
-    grid.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px;grid-column:1/-1">Could not load finds. Check your API quota.</p>';
+    tryAlternateEndpoint(currentKeyword,grid,badge,loading);
   }
 }
 
+async function tryAlternateEndpoint(keyword,grid,badge,loading){
+  loading.classList.add('show');
+  try{
+    const res=await fetch(`https://taobao-datahub.p.rapidapi.com/item_search?keyword=${encodeURIComponent(keyword)}&page=1&sort=sale`,{
+      method:'GET',
+      headers:{'x-rapidapi-key':API_KEY,'x-rapidapi-host':'taobao-datahub.p.rapidapi.com'}
+    });
+    const data=await res.json();
+    loading.classList.remove('show');
+
+    let rawItems=[];
+    if(data?.result?.item_list)  rawItems=data.result.item_list;
+    else if(data?.result?.items) rawItems=data.result.items;
+    else if(data?.items)         rawItems=data.items;
+    else if(Array.isArray(data)) rawItems=data;
+
+    const items=rawItems.map(i=>normalizeItem(i)).filter(Boolean);
+    if(badge)badge.textContent=items.length>0?`${items.length} FINDS`:'HOT';
+
+    if(items.length===0){
+      grid.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px;grid-column:1/-1">Could not load finds right now. Try refreshing or selecting a category.</p>';
+      return;
+    }
+    currentProducts=items;
+    renderFindsGrid(items,grid);
+  }catch{
+    loading.classList.remove('show');
+    grid.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px;grid-column:1/-1">Could not load finds. Check API quota.</p>';
+  }
+}
+
+function renderFindsGrid(items,grid){
+  items.forEach((p,i)=>{
+    const agentLinks=AGENTS.map(a=>`<a class="agent-btn" href="${a.url}${encodeURIComponent(p.url)}" target="_blank">${a.name}</a>`).join('');
+    const imgHtml=p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='📦'">`:'📦';
+    const card=document.createElement('div');
+    card.className='product-card';
+    card.style.animationDelay=`${i*0.04}s`;
+    card.innerHTML=`
+      <div class="p-thumb">${imgHtml}</div>
+      <div class="p-info">
+        <div class="p-name">${p.name}</div>
+        <div class="p-price">¥ ${p.price}</div>
+        <div class="p-meta"><span class="src-badge src-${p.source}">${p.source.toUpperCase()}</span></div>
+        <div class="agent-links">${agentLinks}</div>
+        <button class="qc-btn" onclick="event.stopPropagation();openModal(${i})">View Product Photos</button>
+      </div>`;
+    card.onclick=()=>openModal(i);
+    grid.appendChild(card);
+  });
+}
+
 function refreshFinds(){
-  // Rotate through keywords for variety
   const idx=FIND_KEYWORDS.indexOf(currentKeyword);
   const next=FIND_KEYWORDS[(idx+1)%FIND_KEYWORDS.length];
   loadFinds(next);
 }
 
-// Auto-load on page ready with a random keyword
 loadFinds(FIND_KEYWORDS[Math.floor(Math.random()*FIND_KEYWORDS.length)]);
 
 // ── ALL AGENTS ──
