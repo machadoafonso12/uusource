@@ -543,30 +543,30 @@ async function loadFinds(keyword,catEl){
   grid.innerHTML='';
 
   try{
-    const res=await fetch(`https://taobao-datahub.p.rapidapi.com/item_search_simple?keyword=${encodeURIComponent(currentKeyword)}&page=1`,{
+    const res=await fetch(`https://taobao-datahub.p.rapidapi.com/item_search_x?q=${encodeURIComponent(currentKeyword)}&pageSize=20`,{
       method:'GET',
-      headers:{'x-rapidapi-key':API_KEY,'x-rapidapi-host':'taobao-datahub.p.rapidapi.com'}
+      headers:{'x-rapidapi-key':API_KEY,'x-rapidapi-host':'taobao-datahub.p.rapidapi.com','Content-Type':'application/json'}
     });
     const data=await res.json();
     loading.classList.remove('show');
 
-    // Handle ALL possible response shapes from this API
+    // Handle ALL possible response shapes
     let rawItems=[];
-    if(data?.result?.item_list)            rawItems=data.result.item_list;
-    else if(data?.result?.items)           rawItems=data.result.items;
-    else if(data?.data?.item_list)         rawItems=data.data.item_list;
-    else if(data?.items)                   rawItems=data.items;
-    else if(data?.item_list)               rawItems=data.item_list;
-    else if(Array.isArray(data))           rawItems=data;
+    if(data?.result?.item_list)             rawItems=data.result.item_list;
+    else if(data?.result?.items)            rawItems=data.result.items;
+    else if(data?.data?.item_list)          rawItems=data.data.item_list;
+    else if(data?.data?.items)              rawItems=data.data.items;
+    else if(data?.items)                    rawItems=data.items;
+    else if(data?.item_list)                rawItems=data.item_list;
     else if(data?.result&&Array.isArray(data.result)) rawItems=data.result;
+    else if(Array.isArray(data))            rawItems=data;
 
     const items=rawItems.map(i=>normalizeItem(i)).filter(Boolean);
 
     if(badge)badge.textContent=items.length>0?`${items.length} FINDS`:'HOT';
 
     if(items.length===0){
-      // Fallback: try alternate endpoint
-      tryAlternateEndpoint(currentKeyword,grid,badge,loading);
+      grid.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px;grid-column:1/-1">No finds right now. Try another category or refresh!</p>';
       return;
     }
 
@@ -575,38 +575,9 @@ async function loadFinds(keyword,catEl){
 
   }catch(err){
     loading.classList.remove('show');
-    tryAlternateEndpoint(currentKeyword,grid,badge,loading);
-  }
-}
-
-async function tryAlternateEndpoint(keyword,grid,badge,loading){
-  loading.classList.add('show');
-  try{
-    const res=await fetch(`https://taobao-datahub.p.rapidapi.com/item_search?keyword=${encodeURIComponent(keyword)}&page=1&sort=sale`,{
-      method:'GET',
-      headers:{'x-rapidapi-key':API_KEY,'x-rapidapi-host':'taobao-datahub.p.rapidapi.com'}
-    });
-    const data=await res.json();
-    loading.classList.remove('show');
-
-    let rawItems=[];
-    if(data?.result?.item_list)  rawItems=data.result.item_list;
-    else if(data?.result?.items) rawItems=data.result.items;
-    else if(data?.items)         rawItems=data.items;
-    else if(Array.isArray(data)) rawItems=data;
-
-    const items=rawItems.map(i=>normalizeItem(i)).filter(Boolean);
-    if(badge)badge.textContent=items.length>0?`${items.length} FINDS`:'HOT';
-
-    if(items.length===0){
-      grid.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px;grid-column:1/-1">Could not load finds right now. Try refreshing or selecting a category.</p>';
-      return;
-    }
-    currentProducts=items;
-    renderFindsGrid(items,grid);
-  }catch{
-    loading.classList.remove('show');
-    grid.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px;grid-column:1/-1">Could not load finds. Check API quota.</p>';
+    if(badge)badge.textContent='HOT';
+    grid.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px;grid-column:1/-1">Could not load finds. Try refreshing.</p>';
+    console.error('Finds error:',err);
   }
 }
 
@@ -745,9 +716,20 @@ async function doSearch(){
 function normalizeItem(item,url){
   if(!item)return null;
   try{
-    const imgs=item.item_imgs?.map(i=>i.url)||item.images||[];
-    const main=item.pic_url||item.main_pic||imgs[0]||'';
-    return{name:item.title||item.name||item.subject||'Product',price:item.price||item.sale_price||item.min_price||'—',image:main,images:imgs.length>0?imgs:(main?[main]:[]),source:url?detectSource(url):detectSource(item.detail_url||item.url||''),url:item.detail_url||item.url||url||''};
+    // item_search_x returns different field names
+    const imgs=item.item_imgs?.map(i=>i.url)||item.images||item.pics||[];
+    const main=item.pic_url||item.picUrl||item.main_pic||item.pic||imgs[0]||'';
+    const title=item.title||item.name||item.subject||item.item_title||'Product';
+    const price=item.price||item.sale_price||item.priceWap||item.view_price||item.min_price||'—';
+    const detailUrl=item.detail_url||item.url||item.item_url||url||'';
+    return{
+      name:title,
+      price:price,
+      image:main,
+      images:imgs.length>0?imgs:(main?[main]:[]),
+      source:url?detectSource(url):detectSource(detailUrl),
+      url:detailUrl,
+    };
   }catch{return null;}
 }
 function renderResults(data,query){
