@@ -467,10 +467,10 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28
 <script>
 const API_KEY='07349e86bfmshf9ee4dfb09c3d65p18daf6jsn7116049f9b71';
 const AGENTS=[
-  {name:'Pandabuy',url:'https://www.pandabuy.com/product?url=',desc:'Popular'},
-  {name:'Wegobuy',url:'https://www.wegobuy.com/en/page/buy?from=search-input&url=',desc:'Veteran'},
-  {name:'Superbuy',url:'https://www.superbuy.com/en/page/buy/?nativeflip=true&url=',desc:'Classic'},
-  {name:'CSSBuy',url:'https://www.cssbuy.com/item-',desc:'Budget'},
+  {name:'CNFans',url:'https://cnfans.com/product/?shop_type=taobao&id=',desc:'Top Rated'},
+  {name:'Sugargoo',url:'https://www.sugargoo.com/#/home/productDetail?productLink=https://item.taobao.com/item.htm?id=',desc:'Reliable'},
+  {name:'Mulebuy',url:'https://www.mulebuy.com/product/?shop_type=taobao&id=',desc:'Budget'},
+  {name:'Hipobuy',url:'https://www.hipobuy.com/product/?shop_type=taobao&id=',desc:'Trusted'},
 ];
 
 // ── AUTH ──
@@ -550,15 +550,12 @@ async function loadFinds(keyword,catEl){
     const data=await res.json();
     loading.classList.remove('show');
 
-    // Handle ALL possible response shapes
+    // Handle item_search_x response: result.resultList[n].item
     let rawItems=[];
-    if(data?.result?.item_list)             rawItems=data.result.item_list;
+    if(data?.result?.resultList)            rawItems=data.result.resultList.map(r=>r.item).filter(Boolean);
+    else if(data?.result?.item_list)        rawItems=data.result.item_list;
     else if(data?.result?.items)            rawItems=data.result.items;
-    else if(data?.data?.item_list)          rawItems=data.data.item_list;
-    else if(data?.data?.items)              rawItems=data.data.items;
     else if(data?.items)                    rawItems=data.items;
-    else if(data?.item_list)                rawItems=data.item_list;
-    else if(data?.result&&Array.isArray(data.result)) rawItems=data.result;
     else if(Array.isArray(data))            rawItems=data;
 
     const items=rawItems.map(i=>normalizeItem(i)).filter(Boolean);
@@ -716,19 +713,20 @@ async function doSearch(){
 function normalizeItem(item,url){
   if(!item)return null;
   try{
-    // item_search_x returns different field names
-    const imgs=item.item_imgs?.map(i=>i.url)||item.images||item.pics||[];
-    const main=item.pic_url||item.picUrl||item.main_pic||item.pic||imgs[0]||'';
-    const title=item.title||item.name||item.subject||item.item_title||'Product';
-    const price=item.price||item.sale_price||item.priceWap||item.view_price||item.min_price||'—';
-    const detailUrl=item.detail_url||item.url||item.item_url||url||'';
+    // item_search_x fields: title, image, images[], sku.def.price/promotionPrice, itemIdStr
+    const imgs=(item.images||[]).map(i=>i.startsWith('//')?'https:'+i:i);
+    const mainRaw=item.image||imgs[0]||'';
+    const main=mainRaw.startsWith('//')?'https:'+mainRaw:mainRaw;
+    const price=item.sku?.def?.promotionPrice||item.sku?.def?.price||item.price||item.sale_price||'—';
+    const detailUrl=item.detail_url||item.url||url||'';
     return{
-      name:title,
+      name:item.title||item.name||'Product',
       price:price,
       image:main,
       images:imgs.length>0?imgs:(main?[main]:[]),
       source:url?detectSource(url):detectSource(detailUrl),
       url:detailUrl,
+      itemIdStr:item.itemIdStr||'',
     };
   }catch{return null;}
 }
