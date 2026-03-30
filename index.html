@@ -253,7 +253,9 @@ nav{position:sticky;top:0;z-index:200;background:rgba(4,6,15,0.95);backdrop-filt
 .brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
 .brand-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .22s;text-decoration:none}
 .brand-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 24px rgba(79,143,255,0.14)}
-.brand-logo{width:36px;height:36px;object-fit:contain;filter:invert(1) brightness(0.8);flex-shrink:0}
+.brand-logo-wrap{width:40px;height:40px;flex-shrink:0;border-radius:10px;overflow:hidden;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.brand-logo{width:36px;height:36px;object-fit:contain}
+.brand-logo-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--blue2);letter-spacing:1px;font-weight:700}
 .brand-info-name{font-weight:700;font-size:13px;color:var(--text)}
 .brand-info-count{font-size:11px;color:var(--muted);margin-top:1px}
 
@@ -561,25 +563,30 @@ function convertPrice(cnyPrice){
 
 // ── POPULAR BRANDS ──
 const BRANDS=[
-  {name:'Nike',search:'Nike Jordan Dunk rep',logo:'https://1000logos.net/wp-content/uploads/2021/11/Nike-Logo.png',count:'26,798'},
-  {name:'Louis Vuitton',search:'LV bag rep',logo:'https://1000logos.net/wp-content/uploads/2021/09/Louis-Vuitton-logo.png',count:'8,009'},
-  {name:'adidas',search:'Adidas rep shoes',logo:'https://1000logos.net/wp-content/uploads/2019/06/Adidas-Logo.png',count:'6,715'},
-  {name:'Supreme',search:'Supreme box logo tee rep',logo:'https://1000logos.net/wp-content/uploads/2017/05/Supreme-logo.png',count:'5,200'},
-  {name:'Gucci',search:'Gucci rep bag',logo:'https://1000logos.net/wp-content/uploads/2020/03/Gucci-Logo.png',count:'3,912'},
-  {name:'Stone Island',search:'Stone Island rep jacket',logo:'https://www.google.com/s2/favicons?sz=64&domain=stoneisland.com',count:'3,513'},
-  {name:'Balenciaga',search:'Balenciaga Triple S rep',logo:'https://1000logos.net/wp-content/uploads/2020/09/Balenciaga-Logo.png',count:'2,985'},
-  {name:'Essentials',search:'Fear of God Essentials rep hoodie',logo:'https://www.google.com/s2/favicons?sz=64&domain=essentialsfog.com',count:'3,474'},
-  {name:'Chrome Hearts',search:'Chrome Hearts rep jewelry',logo:'https://www.google.com/s2/favicons?sz=64&domain=chromehearts.com',count:'4,254'},
-  {name:'New Balance',search:'New Balance 550 990 rep',logo:'https://1000logos.net/wp-content/uploads/2020/09/New-Balance-Logo.png',count:'2,089'},
-  {name:'Moncler',search:'Moncler rep jacket',logo:'https://www.google.com/s2/favicons?sz=64&domain=moncler.com',count:'3,446'},
-  {name:'Burberry',search:'Burberry rep',logo:'https://1000logos.net/wp-content/uploads/2020/09/Burberry-Logo.png',count:'3,357'},
+  {name:'Nike',search:'Nike Jordan Dunk rep',logo:'https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg',count:'26,798',dark:true},
+  {name:'Louis Vuitton',search:'LV bag rep',logo:'https://upload.wikimedia.org/wikipedia/commons/7/76/Louis_Vuitton_logo_and_wordmark.svg',count:'8,009',dark:true},
+  {name:'Adidas',search:'Adidas Yeezy Samba rep',logo:'https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg',count:'6,715',dark:true},
+  {name:'Supreme',search:'Supreme box logo tee rep',logo:'https://upload.wikimedia.org/wikipedia/en/9/9f/Supreme_box_logo.svg',count:'5,200',dark:false},
+  {name:'Gucci',search:'Gucci rep bag',logo:'https://upload.wikimedia.org/wikipedia/commons/5/5e/Gucci_Logo.svg',count:'3,912',dark:true},
+  {name:'Stone Island',search:'Stone Island rep jacket',logo:'https://upload.wikimedia.org/wikipedia/commons/b/b1/Stone_Island_logo.svg',count:'3,513',dark:true},
+  {name:'Balenciaga',search:'Balenciaga Triple S rep',logo:'https://upload.wikimedia.org/wikipedia/commons/4/46/Balenciaga_logo.svg',count:'2,985',dark:true},
+  {name:'Essentials',search:'Fear of God Essentials rep hoodie',logo:'https://upload.wikimedia.org/wikipedia/commons/4/4a/Fear_of_God_logo.svg',count:'3,474',dark:true},
+  {name:'Chrome Hearts',search:'Chrome Hearts rep jewelry',logo:'https://upload.wikimedia.org/wikipedia/commons/1/13/Chrome_hearts_logo.svg',count:'4,254',dark:true},
+  {name:'New Balance',search:'New Balance 550 990 rep',logo:'https://upload.wikimedia.org/wikipedia/commons/e/ea/New_Balance_logo.svg',count:'2,089',dark:true},
+  {name:'Moncler',search:'Moncler rep jacket',logo:'https://upload.wikimedia.org/wikipedia/commons/3/34/Moncler_Logo.svg',count:'3,446',dark:true},
+  {name:'Burberry',search:'Burberry rep coat',logo:'https://upload.wikimedia.org/wikipedia/commons/f/f6/Burberry_logo.svg',count:'3,357',dark:true},
 ];
 function renderBrands(){
   const grid=document.getElementById('brands-grid');
   if(!grid)return;
   grid.innerHTML=BRANDS.map(b=>`
     <a class="brand-card" onclick="searchBrand('${b.search}')">
-      <img class="brand-logo" src="${b.logo}" alt="${b.name}" onerror="this.style.display='none'">
+      <div class="brand-logo-wrap">
+        <img class="brand-logo" src="${b.logo}" alt="${b.name}"
+          style="${b.dark?'filter:brightness(0) invert(1) opacity(0.85)':''}"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="brand-logo-fallback" style="display:none">${b.name.slice(0,2).toUpperCase()}</div>
+      </div>
       <div><div class="brand-info-name">${b.name}</div><div class="brand-info-count">${b.count} products</div></div>
     </a>`).join('');
 }
@@ -611,7 +618,7 @@ async function loadFinds(keyword,catEl){
   try{
     const res=await fetch(`https://taobao-datahub.p.rapidapi.com/item_search_x?q=${encodeURIComponent(currentKeyword)}&pageSize=20`,{
       method:'GET',
-      headers:{'x-rapidapi-key':API_KEY,'x-rapidapi-host':'taobao-datahub.p.rapidapi.com','Content-Type':'application/json'}
+      headers:{'x-rapidapi-key':API_KEY,'x-rapidapi-host':'taobao-datahub.p.rapidapi.com'}
     });
     const data=await res.json();
     loading.classList.remove('show');
@@ -891,7 +898,14 @@ function renderLC(){
   const badge=document.getElementById('lc-badge');if(badge)badge.textContent=`${selLang} · ${selCurr}`;
 }
 renderLC();
-function confirmLC(){localStorage.setItem('uu_lang',selLang);localStorage.setItem('uu_curr',selCurr);renderLC();closeAllDD();}
+function confirmLC(){
+  localStorage.setItem('uu_lang',selLang);
+  localStorage.setItem('uu_curr',selCurr);
+  renderLC();
+  closeAllDD();
+  // Reload finds to show new currency
+  loadFinds(currentKeyword);
+}
 </script>
 </body>
 </html>
