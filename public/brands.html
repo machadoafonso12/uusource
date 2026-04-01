@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UUSource — Popular Brands</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#04060f;--surface:#0d1225;--surface2:#111830;--border:rgba(99,137,255,0.12);--border2:rgba(99,137,255,0.28);--blue:#4f8fff;--blue2:#7eb3ff;--blue-glow:rgba(79,143,255,0.35);--blue-dim:rgba(79,143,255,0.08);--text:#eef2ff;--muted:#5a6a9a;--muted2:#3d4f7a;--card:#0a0f1e}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(79,143,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(79,143,255,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}
+.orb1{width:500px;height:500px;background:rgba(79,143,255,0.08);top:-100px;left:-100px}
+.orb2{width:400px;height:400px;background:rgba(244,114,182,0.05);bottom:-100px;right:-100px}
+nav{position:sticky;top:0;z-index:100;background:rgba(4,6,15,0.95);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:12px 32px}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;background:linear-gradient(135deg,#fff,var(--blue2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
+.logo-dot{display:inline-block;width:7px;height:7px;background:var(--blue);border-radius:50%;margin-left:2px;vertical-align:middle;margin-bottom:3px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--blue-glow)}50%{box-shadow:0 0 0 7px transparent}}
+.back-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:500;padding:8px 16px;border-radius:10px;text-decoration:none;transition:all .2s}
+.back-btn:hover{border-color:var(--border2);color:var(--text)}
+.page{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:48px 32px 80px}
+.page-hdr{text-align:center;margin-bottom:48px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--blue-dim);border:1px solid var(--border2);color:var(--blue2);font-size:11px;font-weight:700;padding:5px 16px;border-radius:100px;margin-bottom:16px;letter-spacing:.5px}
+.page-hdr h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,7vw,72px);letter-spacing:2px;margin-bottom:10px;background:linear-gradient(135deg,#fff,var(--blue2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-hdr p{color:var(--muted);font-size:15px;max-width:400px;margin:0 auto}
+.search-wrap{max-width:500px;margin:0 auto 40px;position:relative}
+.brand-search{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:14px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:15px;padding:14px 20px 14px 48px;outline:none;transition:border-color .2s,box-shadow .2s}
+.brand-search:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,143,255,0.1)}
+.brand-search::placeholder{color:var(--muted2)}
+.search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px;pointer-events:none}
+.section-label{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--muted);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:40px}
+.brand-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .22s}
+.brand-card:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 6px 28px rgba(79,143,255,0.15)}
+.brand-logo{width:40px;height:40px;object-fit:contain;flex-shrink:0}
+.brand-name{font-weight:700;font-size:14px;color:var(--text)}
+.brand-count{font-size:11px;color:var(--muted);margin-top:2px}
+.no-results{text-align:center;padding:60px;color:var(--muted);font-size:14px;grid-column:1/-1}
+@media(max-width:640px){nav{padding:10px 16px}.page{padding:32px 16px 60px}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<nav>
+  <a class="logo" href="index.html">UUSource<span class="logo-dot"></span></a>
+  <a class="back-btn" href="index.html">← Back to Search</a>
+</nav>
+<div class="page">
+  <div class="page-hdr">
+    <div class="eyebrow">🏷️ All brands</div>
+    <h1>Popular Brands</h1>
+    <p>Click any brand to find rep products from that brand instantly</p>
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="brand-search" type="text" id="brand-search" placeholder="Search brands…" oninput="filterBrands(this.value)">
+  </div>
+  <div class="section-label">Streetwear & Sneakers</div>
+  <div class="brands-grid" id="grid-street"></div>
+  <div class="section-label">Luxury & Designer</div>
+  <div class="brands-grid" id="grid-luxury"></div>
+  <div class="section-label">Sportswear</div>
+  <div class="brands-grid" id="grid-sport"></div>
+  <div class="brands-grid" id="grid-search" style="display:none"></div>
+</div>
+<script>
+if(localStorage.getItem('uu_logged_in')!=='true'){window.location.href='login.html';}
+
+const ALL_BRANDS=[
+  // Streetwear
+  {name:'Supreme',search:'Supreme 复刻 box logo 卫衣',count:'5,200',cat:'street',logo:'https://cdn.worldvectorlogo.com/logos/supreme-1.svg'},
+  {name:'Off-White',search:'Off-White Virgil rep',count:'4,100',cat:'street',logo:'https://img.icons8.com/color/96/off-white.png'},
+  {name:'Essentials',search:'Essentials FOG 复刻卫衣',count:'3,474',cat:'street',logo:'https://img.icons8.com/color/96/fear-of-god.png'},
+  {name:'Chrome Hearts',search:'Chrome Hearts 克罗心 复刻首饰',count:'4,254',cat:'street',logo:'https://img.icons8.com/color/96/chrome-hearts.png'},
+  {name:'Corteiz',search:'Corteiz 复刻',count:'1,824',cat:'street',logo:'https://img.icons8.com/color/96/corteiz.png'},
+  {name:'Gallery Dept',search:'Gallery Dept 复刻牛仔裤',count:'2,469',cat:'street',logo:'https://img.icons8.com/color/96/gallery-dept.png'},
+  {name:'Stussy',search:'Stussy 复刻卫衣',count:'1,900',cat:'street',logo:'https://img.icons8.com/color/96/stussy.png'},
+  {name:'Bape',search:'BAPE 猿人头 复刻',count:'2,300',cat:'street',logo:'https://img.icons8.com/color/96/bape.png'},
+  {name:'Palace',search:'Palace 复刻',count:'1,500',cat:'street',logo:'https://img.icons8.com/color/96/palace.png'},
+  {name:'Trapstar',search:'Trapstar 复刻',count:'1,200',cat:'street',logo:'https://img.icons8.com/color/96/trapstar.png'},
+  {name:'Sp5der',search:'Sp5der 蜘蛛 复刻卫衣',count:'980',cat:'street',logo:'https://img.icons8.com/color/96/sp5der.png'},
+  {name:'Hellstar',search:'Hellstar 复刻卫衣',count:'870',cat:'street',logo:'https://img.icons8.com/color/96/hellstar.png'},
+  // Luxury
+  {name:'Louis Vuitton',search:'LV 路易威登 复刻包',count:'8,009',cat:'luxury',logo:'https://cdn.worldvectorlogo.com/logos/louis-vuitton-1.svg'},
+  {name:'Gucci',search:'Gucci 古驰 复刻包',count:'3,912',cat:'luxury',logo:'https://cdn.worldvectorlogo.com/logos/gucci-logo-1.svg'},
+  {name:'Dior',search:'Dior 迪奥 复刻鞋包',count:'4,888',cat:'luxury',logo:'https://cdn.worldvectorlogo.com/logos/dior-2.svg'},
+  {name:'Chanel',search:'Chanel 香奈儿 复刻包',count:'1,809',cat:'luxury',logo:'https://cdn.worldvectorlogo.com/logos/chanel-1.svg'},
+  {name:'Balenciaga',search:'Balenciaga 巴黎世家 复刻运动鞋',count:'2,985',cat:'luxury',logo:'https://cdn.worldvectorlogo.com/logos/balenciaga.svg'},
+  {name:'Prada',search:'Prada 普拉达 复刻包',count:'2,858',cat:'luxury',logo:'https://cdn.worldvectorlogo.com/logos/prada-logo-1.svg'},
+  {name:'Goyard',search:'Goyard 戈雅 复刻包',count:'2,170',cat:'luxury',logo:'https://img.icons8.com/color/96/goyard.png'},
+  {name:'Hermès',search:'Hermes 爱马仕 复刻包',count:'1,799',cat:'luxury',logo:'https://img.icons8.com/color/96/hermes.png'},
+  {name:'Burberry',search:'Burberry 博柏利 复刻外套',count:'3,357',cat:'luxury',logo:'https://cdn.worldvectorlogo.com/logos/burberry-1.svg'},
+  {name:'Stone Island',search:'Stone Island 石头岛 复刻外套',count:'3,513',cat:'luxury',logo:'https://cdn.worldvectorlogo.com/logos/stone-island.svg'},
+  {name:'Moncler',search:'Moncler 盟可睐 复刻羽绒服',count:'3,446',cat:'luxury',logo:'https://cdn.worldvectorlogo.com/logos/moncler.svg'},
+  {name:'Maison Margiela',search:'Maison Margiela 马吉拉 复刻鞋',count:'1,526',cat:'luxury',logo:'https://img.icons8.com/color/96/maison-margiela.png'},
+  {name:'Ralph Lauren',search:'Ralph Lauren 拉夫劳伦 复刻polo',count:'5,456',cat:'luxury',logo:'https://cdn.worldvectorlogo.com/logos/ralph-lauren-1.svg'},
+  {name:'Polo Ralph Lauren',search:'Polo Ralph Lauren 复刻',count:'4,006',cat:'luxury',logo:'https://cdn.worldvectorlogo.com/logos/ralph-lauren-1.svg'},
+  // Sportswear
+  {name:'Nike',search:'Nike 耐克 复刻 板鞋',count:'26,798',cat:'sport',logo:'https://cdn.worldvectorlogo.com/logos/nike-4.svg'},
+  {name:'adidas',search:'Adidas 阿迪达斯 复刻鞋',count:'6,715',cat:'sport',logo:'https://cdn.worldvectorlogo.com/logos/adidas-2.svg'},
+  {name:'New Balance',search:'New Balance 新百伦 复刻运动鞋',count:'2,089',cat:'sport',logo:'https://cdn.worldvectorlogo.com/logos/new-balance-1.svg'},
+  {name:'Asics',search:'Asics 亚瑟士 复刻运动鞋',count:'2,051',cat:'sport',logo:'https://cdn.worldvectorlogo.com/logos/asics-1.svg'},
+  {name:'Under Armour',search:'Under Armour 安德玛 复刻',count:'1,381',cat:'sport',logo:'https://cdn.worldvectorlogo.com/logos/under-armour-1.svg'},
+  {name:'Lacoste',search:'Lacoste 鳄鱼 复刻polo',count:'1,885',cat:'sport',logo:'https://cdn.worldvectorlogo.com/logos/lacoste-1.svg'},
+  {name:'Saucony',search:'Saucony 索康尼 复刻运动鞋',count:'1,200',cat:'sport',logo:'https://img.icons8.com/color/96/saucony.png'},
+  {name:'C.P. Company',search:'CP Company 复刻外套',count:'1,624',cat:'sport',logo:'https://img.icons8.com/color/96/cp-company.png'},
+  {name:'Salomon',search:'Salomon 萨洛蒙 复刻运动鞋',count:'1,100',cat:'sport',logo:'https://img.icons8.com/color/96/salomon.png'},
+];
+
+function renderGrid(items,gridId){
+  const grid=document.getElementById(gridId);
+  if(!grid)return;
+  grid.innerHTML=items.length===0
+    ?'<div class="no-results">No brands found</div>'
+    :items.map(b=>`
+      <div class="brand-card" onclick="goSearch('${b.search}')">
+        <img class="brand-logo" src="${b.logo}" alt="${b.name}" onerror="this.style.display='none'">
+        <div><div class="brand-name">${b.name}</div><div class="brand-count">${b.count} products</div></div>
+      </div>`).join('');
+}
+
+function goSearch(q){
+  sessionStorage.setItem('uu_brand_search',q);
+  window.location.href='index.html#finds';
+}
+
+function init(){
+  renderGrid(ALL_BRANDS.filter(b=>b.cat==='street'),'grid-street');
+  renderGrid(ALL_BRANDS.filter(b=>b.cat==='luxury'),'grid-luxury');
+  renderGrid(ALL_BRANDS.filter(b=>b.cat==='sport'),'grid-sport');
+}
+init();
+
+function filterBrands(q){
+  const q2=q.toLowerCase().trim();
+  const searchGrid=document.getElementById('grid-search');
+  const sections=document.querySelectorAll('.section-label, #grid-street, #grid-luxury, #grid-sport');
+  if(!q2){
+    searchGrid.style.display='none';
+    sections.forEach(s=>s.style.display='');
+    return;
+  }
+  sections.forEach(s=>s.style.display='none');
+  searchGrid.style.display='grid';
+  const filtered=ALL_BRANDS.filter(b=>b.name.toLowerCase().includes(q2)||b.search.toLowerCase().includes(q2));
+  renderGrid(filtered,'grid-search');
+}
+</script>
+</body>
+</html>
