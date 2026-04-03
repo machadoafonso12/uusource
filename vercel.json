@@ -1,9 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "/api/:path*" },
-    { "source": "/", "destination": "/public/index.html" },
-    { "source": "/login", "destination": "/public/login.html" },
-    { "source": "/brands", "destination": "/public/brands.html" },
-    { "source": "/coupons", "destination": "/public/coupons.html" }
-  ]
-}
